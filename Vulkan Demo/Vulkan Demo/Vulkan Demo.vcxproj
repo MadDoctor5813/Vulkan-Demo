@@ -72,7 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Users\Kevin\Programming Projects\Vulkan Demo\deps\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\VulkanSDK\1.0.17.0\Bin32;C:\Users\Kevin\Programming Projects\Vulkan Demo\deps\lib\libdebug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\Kevin\Programming Projects\Vulkan Demo\deps\lib\libdebug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -80,7 +80,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Users\Kevin\Programming Projects\Vulkan Demo\deps\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\VulkanSDK\1.0.17.0\Bin32;C:\Users\Kevin\Programming Projects\Vulkan Demo\deps\lib\librelease;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\Kevin\Programming Projects\Vulkan Demo\deps\lib\librelease;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
