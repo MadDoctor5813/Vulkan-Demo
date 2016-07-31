@@ -1,8 +1,10 @@
 #pragma once
 
 #include <GLFW\glfw3.h>
+#include <vulkan\vulkan.h>
 
 #include "VkWrapper.h"
+#include "ExtensionHelper.h"
 
 class App {
 
@@ -15,6 +17,8 @@ public:
 private:
 	GLFWwindow * window;
 	VkWrapper<VkInstance> vkInstance{ vkDestroyInstance };
+	ExtensionHelper extHelper;
+
 
 	const int WIDTH = 720;
 	const int HEIGHT = 480;

@@ -39,6 +39,10 @@ void App::initGLFW() {
 
 void App::initVulkan() {
 	createVkInstance();
+	std::cout << "Loaded extensions: " << std::endl;
+	for (auto ext : extHelper.getExtensions()) {
+		std::cout << ext.extensionName << std::endl;
+	}
 }
 
 void App::createVkInstance() {
@@ -62,4 +66,5 @@ void App::createVkInstance() {
 	if (vkCreateInstance(&createInfo, nullptr, &vkInstance) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create Vulkan instance.");
 	}
+
 }
