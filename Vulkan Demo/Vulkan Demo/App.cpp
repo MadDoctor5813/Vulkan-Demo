@@ -25,12 +25,16 @@ void App::runLoop() {
 
 void App::initGLFW() {
 	if (glfwInit() != GLFW_TRUE) {
-		std::cout << "GLFW init error" << std::endl;
+		throw std::runtime_error("GLFW init failed.");
 	}
 
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 	window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan Test", nullptr, nullptr);
+
+	if (window == nullptr) {
+		throw std::runtime_error("Window creation failed.");
+	}
 }
 
 void App::initVulkan() {
@@ -56,6 +60,6 @@ void App::createVkInstance() {
 	createInfo.enabledLayerCount = 0;
 	createInfo.ppEnabledLayerNames = nullptr;
 	if (vkCreateInstance(&createInfo, nullptr, &vkInstance) != VK_SUCCESS) {
-		std::cout << "Failed to create Vulkan instance" << std::endl;
+		throw std::runtime_error("Failed to create Vulkan instance.");
 	}
 }
