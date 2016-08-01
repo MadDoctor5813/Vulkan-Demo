@@ -5,6 +5,7 @@
 
 #include "vkhelpers\VkWrapper.h"
 #include "vkhelpers\ExtensionHelper.h"
+#include "vkhelpers\LayerHelper.h"
 
 class App {
 
@@ -17,8 +18,9 @@ public:
 private:
 	GLFWwindow * window;
 	VkWrapper<VkInstance> vkInstance{ vkDestroyInstance };
-	ExtensionHelper extHelper;
 
+	ExtensionHelper extHelper;
+	LayerHelper layerHelper;
 
 	const int WIDTH = 720;
 	const int HEIGHT = 480;

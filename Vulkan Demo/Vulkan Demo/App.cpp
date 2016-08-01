@@ -41,6 +41,10 @@ void App::initVulkan() {
 	for (auto ext : extHelper.getExtensions()) {
 		std::cout << ext.extensionName << std::endl;
 	}
+	std::cout << "Available layers: " << std::endl;
+	for (auto layer : layerHelper.getLayers()) {
+		std::cout << layer.layerName << std::endl;
+	}
 }
 
 void App::createVkInstance() {
