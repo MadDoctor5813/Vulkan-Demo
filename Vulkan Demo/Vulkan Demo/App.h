@@ -17,6 +17,8 @@ public:
 
 	void runLoop();
 
+	VkWrapper<VkInstance> getInstance() { return vkInstance; }
+
 private:
 	GLFWwindow * window;
 	VkWrapper<VkInstance> vkInstance{ vkDestroyInstance };
