@@ -77,7 +77,7 @@ void App::setReqExtensions() {
 		reqExtensions.push_back(exts[i]);
 	}
 #ifndef NDEBUG
-	reqLayers.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+	reqExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
 #endif
 	if (!extHelper.areExtensionsPresent(reqExtensions)) {
 		throw std::runtime_error("Required extensions not present.");
