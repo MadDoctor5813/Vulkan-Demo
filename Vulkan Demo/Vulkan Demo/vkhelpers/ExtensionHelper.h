@@ -4,7 +4,7 @@
 #include <string>
 #include <vulkan\vulkan.h>
 
-#include "App.h"
+class App;
 
 class ExtensionHelper {
 public:
