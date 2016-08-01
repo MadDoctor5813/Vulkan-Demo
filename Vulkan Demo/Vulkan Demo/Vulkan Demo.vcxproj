@@ -149,12 +149,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="vkhelpers\DeviceHelper.cpp" />
     <ClCompile Include="vkhelpers\LayerHelper.cpp" />
     <ClCompile Include="vkhelpers\ExtensionHelper.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="vkhelpers\DeviceHelper.h" />
     <ClInclude Include="vkhelpers\LayerHelper.h" />
     <ClInclude Include="vkhelpers\ExtensionHelper.h" />
     <ClInclude Include="vkhelpers\VkWrapper.h" />

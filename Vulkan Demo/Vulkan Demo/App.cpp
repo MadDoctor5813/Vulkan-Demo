@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-App::App() : extHelper(*this) {
+App::App() : extHelper(*this), deviceHelper(*this) {
 	
 	initGLFW();
 	initVulkan();
@@ -50,6 +50,7 @@ void App::initVulkan() {
 	if (enableDebugLayers) {
 		setDebugCallback();
 	}
+	deviceHelper.selectPhysicalDevice();
 }
 
 void App::createVkInstance() {
