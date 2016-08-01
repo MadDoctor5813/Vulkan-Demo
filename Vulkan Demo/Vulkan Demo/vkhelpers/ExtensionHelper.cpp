@@ -13,8 +13,8 @@ bool ExtensionHelper::isExtensionPresent(const std::string & name) {
 		if (name.compare(ext.extensionName)) {
 			return true;
 		}
-		return false;
 	}
+	return false;
 }
 
 void ExtensionHelper::queryExtensions() {

@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-#include "VkWrapper.h"
-
 App::App() {
 
 	initGLFW();

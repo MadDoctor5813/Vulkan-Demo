@@ -3,8 +3,8 @@
 #include <GLFW\glfw3.h>
 #include <vulkan\vulkan.h>
 
-#include "VkWrapper.h"
-#include "ExtensionHelper.h"
+#include "vkhelpers\VkWrapper.h"
+#include "vkhelpers\ExtensionHelper.h"
 
 class App {
 

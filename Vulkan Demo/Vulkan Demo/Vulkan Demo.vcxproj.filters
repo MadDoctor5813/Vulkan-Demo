@@ -21,7 +21,7 @@
     <ClCompile Include="App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExtensionHelper.cpp">
+    <ClCompile Include="vkhelpers\ExtensionHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,10 +29,10 @@
     <ClInclude Include="App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VkWrapper.h">
+    <ClInclude Include="vkhelpers\ExtensionHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExtensionHelper.h">
+    <ClInclude Include="vkhelpers\VkWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
