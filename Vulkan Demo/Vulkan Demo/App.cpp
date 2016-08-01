@@ -36,6 +36,7 @@ void App::initGLFW() {
 }
 
 void App::initVulkan() {
+	setReqExtensions();
 	createVkInstance();
 	std::cout << "Loaded extensions: " << std::endl;
 	for (auto ext : extHelper.getExtensions()) {
@@ -57,16 +58,29 @@ void App::createVkInstance() {
 	appInfo.apiVersion = VK_API_VERSION_1_0;
 	VkInstanceCreateInfo createInfo = {};
 	createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-	createInfo.pApplicationInfo = &appInfo;
-	unsigned int extCount = 0;
-	const char** exts;
-	exts = glfwGetRequiredInstanceExtensions(&extCount);
-	createInfo.enabledExtensionCount = extCount;
-	createInfo.ppEnabledExtensionNames = exts;
+	createInfo.pApplicationInfo = &appInfo;	
+	createInfo.enabledExtensionCount = reqExtensions.size();
+	createInfo.ppEnabledExtensionNames = reqExtensions.data();
 	createInfo.enabledLayerCount = 0;
 	createInfo.ppEnabledLayerNames = nullptr;
 	if (vkCreateInstance(&createInfo, nullptr, &vkInstance) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create Vulkan instance.");
+	}
+
+}
+
+void App::setReqExtensions() {
+	unsigned int extCount = 0;
+	const char** exts;
+	exts = glfwGetRequiredInstanceExtensions(&extCount);
+	for (int i = 0; i < extCount; i++) {
+		reqExtensions.push_back(exts[i]);
+	}
+#ifndef NDEBUG
+	reqLayers.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+#endif
+	if (!extHelper.areExtensionsPresent(reqExtensions)) {
+		throw std::runtime_error("Required extensions not present.");
 	}
 
 }

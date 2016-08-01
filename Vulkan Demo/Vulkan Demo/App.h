@@ -2,6 +2,8 @@
 
 #include <GLFW\glfw3.h>
 #include <vulkan\vulkan.h>
+#include <vector>
+#include <string>
 
 #include "vkhelpers\VkWrapper.h"
 #include "vkhelpers\ExtensionHelper.h"
@@ -19,6 +21,9 @@ private:
 	GLFWwindow * window;
 	VkWrapper<VkInstance> vkInstance{ vkDestroyInstance };
 
+	std::vector<const char*> reqExtensions;
+	std::vector<const char*> reqLayers;
+
 	ExtensionHelper extHelper;
 	LayerHelper layerHelper;
 
@@ -29,6 +34,7 @@ private:
 	void initVulkan();
 	
 	void createVkInstance();
+	void setReqExtensions();
 
 };
 
