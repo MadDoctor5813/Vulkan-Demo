@@ -76,9 +76,9 @@ void App::setReqExtensions() {
 	for (int i = 0; i < extCount; i++) {
 		reqExtensions.push_back(exts[i]);
 	}
-#ifndef NDEBUG
-	reqExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
-#endif
+	if (enableDebugLayers) {
+		reqExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+	}
 	if (!extHelper.areExtensionsPresent(reqExtensions)) {
 		throw std::runtime_error("Required extensions not present.");
 	}
@@ -86,9 +86,9 @@ void App::setReqExtensions() {
 }
 
 void App::setReqLayers() {
-#ifndef NDEBUG
-	reqLayers.push_back("VK_LAYER_LUNARG_standard_validation");
-#endif
+	if (enableDebugLayers) {
+		reqLayers.push_back("VK_LAYER_LUNARG_standard_validation");
+	}	
 	if (!layerHelper.areLayersPresent(reqLayers)) {
 		throw std::runtime_error("Required validation layers not present");
 	}

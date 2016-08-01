@@ -25,6 +25,11 @@ private:
 
 	std::vector<const char*> reqExtensions;
 	std::vector<const char*> reqLayers;
+#ifdef NDEBUG	
+	const bool enableDebugLayers = false;
+#else
+	const bool enableDebugLayers = true;
+#endif
 
 	ExtensionHelper extHelper;
 	LayerHelper layerHelper;
