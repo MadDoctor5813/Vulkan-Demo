@@ -8,16 +8,16 @@ ExtensionHelper::ExtensionHelper() {
 ExtensionHelper::~ExtensionHelper() {
 }
 
-bool ExtensionHelper::isExtensionPresent(const std::string & name) {
+bool ExtensionHelper::isExtensionPresent(const char* name) {
 	for (auto ext : extensions) {
-		if (name.compare(ext.extensionName)) {
+		if (strcmp(ext.extensionName, name) == 0) {
 			return true;
 		}
 	}
 	return false;
 }
 
-bool ExtensionHelper::areExtensionsPresent(const std::vector<std::string>& names) {
+bool ExtensionHelper::areExtensionsPresent(const std::vector<const char*>& names) {
 	for (auto name : names) {
 		if (!isExtensionPresent(name)) {
 			return false;

@@ -10,16 +10,16 @@ LayerHelper::LayerHelper() {
 LayerHelper::~LayerHelper() {
 }
 
-bool LayerHelper::isLayerPresent(const std::string & name) {
+bool LayerHelper::isLayerPresent(const char* name) {
 	for (auto layer : layers) {
-		if (name.compare(layer.layerName)) {
+		if (strcmp(layer.layerName, name)) {
 			return true;
 		}
 	}
 	return false;
 }
 
-bool LayerHelper::areLayersPresent(const std::vector<std::string>& names) {
+bool LayerHelper::areLayersPresent(const std::vector<const char*>& names) {
 	for (auto name : names) {
 		if (!isLayerPresent(name)) {
 			return false;

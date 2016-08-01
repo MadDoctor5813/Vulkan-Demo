@@ -9,8 +9,8 @@ public:
 	LayerHelper();
 	~LayerHelper();
 
-	bool isLayerPresent(const std::string& name);
-	bool areLayersPresent(const std::vector<std::string>& names);
+	bool isLayerPresent(const char* name);
+	bool areLayersPresent(const std::vector<const char*>& names);
 	std::vector<VkLayerProperties> getLayers() { return layers; };
 
 private:
