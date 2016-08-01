@@ -71,7 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Kevin\Programming Projects\Vulkan Demo\deps\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Kevin\Programming Projects\Vulkan Demo\Vulkan Demo\Vulkan Demo;C:\Users\Kevin\Programming Projects\Vulkan Demo\deps\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Kevin\Programming Projects\Vulkan Demo\deps\lib\libdebug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -79,7 +79,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\Kevin\Programming Projects\Vulkan Demo\deps\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Kevin\Programming Projects\Vulkan Demo\Vulkan Demo\Vulkan Demo;C:\Users\Kevin\Programming Projects\Vulkan Demo\deps\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Kevin\Programming Projects\Vulkan Demo\deps\lib\librelease;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
