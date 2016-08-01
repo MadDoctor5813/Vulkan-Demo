@@ -18,7 +18,7 @@ public:
 
 	void runLoop();
 
-	VkWrapper<VkInstance> getInstance() { return vkInstance; }
+	VkInstance getInstance() { return vkInstance; }
 
 private:
 	GLFWwindow * window;
