@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-App::App() {
-
+App::App() : extHelper(*this) {
+	
 	initGLFW();
 	initVulkan();
 
