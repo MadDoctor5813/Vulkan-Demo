@@ -13,12 +13,12 @@ public:
 		deleteFunc = [deletef](T obj) { deletef(obj, nullptr); };
 	}
 
-	VkWrapper(VkWrapper<VkInstance> instance, std::function<void(VkInstance, T, VkAllocationCallbacks*)> deletef) {
-		deleteFunc = [instance, deletef](T obj) { deletef(instance, obj, nullptr); };
+	VkWrapper(const VkWrapper<VkInstance>& instance, std::function<void(VkInstance, T, VkAllocationCallbacks*)> deletef) {
+		deleteFunc = [&instance, deletef](T obj) { deletef(instance, obj, nullptr); };
 	}
 
-	VkWrapper(const VkWrapper<VkDevice> device, std::function<void(VkDevice, T, VkAllocationCallbacks*)> deletef) {
-		deleteFunc = [device, deletef](T obj) { deletef(device, obj, nullptr); };
+	VkWrapper(const VkWrapper<VkDevice>& device, std::function<void(VkDevice, T, VkAllocationCallbacks*)> deletef) {
+		deleteFunc = [&device, deletef](T obj) { deletef(device, obj, nullptr); };
 	}
 
 	~VkWrapper() {
