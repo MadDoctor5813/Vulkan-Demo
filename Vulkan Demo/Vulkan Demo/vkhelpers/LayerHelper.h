@@ -2,6 +2,7 @@
 
 #include <vulkan/vulkan.h>
 #include <vector>
+#include <string>
 
 class LayerHelper {
 public:
@@ -9,6 +10,7 @@ public:
 	~LayerHelper();
 
 	bool isLayerPresent(const std::string& name);
+	bool areLayersPresent(const std::vector<std::string>& names);
 	std::vector<VkLayerProperties> getLayers() { return layers; };
 
 private:

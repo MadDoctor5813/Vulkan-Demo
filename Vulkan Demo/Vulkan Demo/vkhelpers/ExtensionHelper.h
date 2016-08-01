@@ -12,6 +12,7 @@ public:
 	std::vector<VkExtensionProperties>& getExtensions() { return extensions; };
 
 	bool isExtensionPresent(const std::string& name);
+	bool areExtensionsPresent(const std::vector<std::string>& names);
 
 private:
 	void queryExtensions();

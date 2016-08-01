@@ -17,7 +17,15 @@ bool LayerHelper::isLayerPresent(const std::string & name) {
 		}
 	}
 	return false;
+}
 
+bool LayerHelper::areLayersPresent(const std::vector<std::string>& names) {
+	for (auto name : names) {
+		if (!isLayerPresent(name)) {
+			return false;
+		}
+	}
+	return true;
 }
 
 void LayerHelper::queryLayers() {

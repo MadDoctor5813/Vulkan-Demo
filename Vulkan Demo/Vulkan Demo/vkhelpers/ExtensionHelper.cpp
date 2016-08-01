@@ -17,6 +17,15 @@ bool ExtensionHelper::isExtensionPresent(const std::string & name) {
 	return false;
 }
 
+bool ExtensionHelper::areExtensionsPresent(const std::vector<std::string>& names) {
+	for (auto name : names) {
+		if (!isExtensionPresent(name)) {
+			return false;
+		}
+	}
+	return true;
+}
+
 void ExtensionHelper::queryExtensions() {
 	unsigned int extCount;
 	vkEnumerateInstanceExtensionProperties(nullptr, &extCount, nullptr);
