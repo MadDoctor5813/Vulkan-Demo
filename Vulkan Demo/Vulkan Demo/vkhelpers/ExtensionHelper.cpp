@@ -1,6 +1,6 @@
 #include "ExtensionHelper.h"
 
-ExtensionHelper::ExtensionHelper() {
+ExtensionHelper::ExtensionHelper(App& app) : app(app) {
 	queryExtensions();
 }
 
