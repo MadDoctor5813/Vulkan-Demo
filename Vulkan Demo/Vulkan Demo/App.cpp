@@ -37,6 +37,7 @@ void App::initGLFW() {
 
 void App::initVulkan() {
 	setReqExtensions();
+	setReqLayers();
 	createVkInstance();
 	std::cout << "Loaded extensions: " << std::endl;
 	for (auto ext : extHelper.getExtensions()) {
@@ -45,6 +46,9 @@ void App::initVulkan() {
 	std::cout << "Available layers: " << std::endl;
 	for (auto layer : layerHelper.getLayers()) {
 		std::cout << layer.layerName << std::endl;
+	}
+	if (enableDebugLayers) {
+		setDebugCallback();
 	}
 }
 
@@ -61,8 +65,8 @@ void App::createVkInstance() {
 	createInfo.pApplicationInfo = &appInfo;	
 	createInfo.enabledExtensionCount = reqExtensions.size();
 	createInfo.ppEnabledExtensionNames = reqExtensions.data();
-	createInfo.enabledLayerCount = 0;
-	createInfo.ppEnabledLayerNames = nullptr;
+	createInfo.enabledLayerCount = reqLayers.size();
+	createInfo.ppEnabledLayerNames = reqLayers.data();
 	if (vkCreateInstance(&createInfo, nullptr, &vkInstance) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create Vulkan instance.");
 	}
@@ -92,4 +96,33 @@ void App::setReqLayers() {
 	if (!layerHelper.areLayersPresent(reqLayers)) {
 		throw std::runtime_error("Required validation layers not present");
 	}
+}
+
+void App::setDebugCallback() {
+	VkDebugReportCallbackCreateInfoEXT callbackInfo = {};
+	callbackInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
+	callbackInfo.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT;
+	callbackInfo.pfnCallback = (PFN_vkDebugReportCallbackEXT) debugLayerCallback;
+	auto callbackCreateFunc = (PFN_vkCreateDebugReportCallbackEXT) extHelper.loadExtensionProc("vkCreateDebugReportCallbackEXT");
+	callbackCreateFunc(vkInstance, &callbackInfo, nullptr, &vkCallback);
+}
+
+void App::destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator) {
+	auto destroyFunc = (PFN_vkDestroyDebugReportCallbackEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT");
+	destroyFunc(instance, callback, allocator);
+}
+
+VkBool32 App::debugLayerCallback(
+	VkDebugReportFlagsEXT flags,
+	VkDebugReportObjectTypeEXT objType,
+	uint64_t obj,
+	size_t location,
+	int32_t code,
+	const char* layerPrefix,
+	const char* msg,
+	void* userData) {
+
+	std::cerr << "validation layer: " << msg << std::endl;
+
+	return VK_FALSE;
 }

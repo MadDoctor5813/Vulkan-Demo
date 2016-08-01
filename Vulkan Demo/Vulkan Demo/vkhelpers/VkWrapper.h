@@ -13,7 +13,7 @@ public:
 		deleteFunc = [deletef](T obj) { deletef(obj, nullptr); };
 	}
 
-	VkWrapper(const VkWrapper<VkInstance> instance, std::function<void(VkInstance, T, VkAllocationCallbacks*)> deletef) {
+	VkWrapper(VkWrapper<VkInstance> instance, std::function<void(VkInstance, T, VkAllocationCallbacks*)> deletef) {
 		deleteFunc = [instance, deletef](T obj) { deletef(instance, obj, nullptr); };
 	}
 
