@@ -84,3 +84,12 @@ void App::setReqExtensions() {
 	}
 
 }
+
+void App::setReqLayers() {
+#ifndef NDEBUG
+	reqLayers.push_back("VK_LAYER_LUNARG_standard_validation");
+#endif
+	if (!layerHelper.areLayersPresent(reqLayers)) {
+		throw std::runtime_error("Required validation layers not present");
+	}
+}

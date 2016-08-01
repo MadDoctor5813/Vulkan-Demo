@@ -35,6 +35,7 @@ private:
 	
 	void createVkInstance();
 	void setReqExtensions();
+	void setReqLayers();
 
 };
 
