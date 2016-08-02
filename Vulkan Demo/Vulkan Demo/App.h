@@ -8,7 +8,6 @@
 
 #include "vkhelpers\VkWrapper.h"
 #include "vkhelpers\VkQueryHelper.h"
-#include "vkhelpers\LayerHelper.h"
 #include "vkhelpers\DeviceHelper.h"
 
 class App {
