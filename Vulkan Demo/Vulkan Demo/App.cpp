@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-App::App() : extHelper(*this), deviceHelper(*this) {
+App::App() : deviceHelper(*this) {
 	
 	initGLFW();
 	initVulkan();
@@ -36,15 +36,15 @@ void App::initGLFW() {
 }
 
 void App::initVulkan() {
-	setReqExtensions();
-	setReqLayers();
+	loadExtensions();
+	loadLayers();
 	createVkInstance();
 	std::cout << "Loaded extensions: " << std::endl;
-	for (auto ext : extHelper.getExtensions()) {
+	for (auto ext : extHelper.getNames()) {
 		std::cout << ext.extensionName << std::endl;
 	}
 	std::cout << "Available layers: " << std::endl;
-	for (auto layer : layerHelper.getLayers()) {
+	for (auto layer : layerHelper.getNames()) {
 		std::cout << layer.layerName << std::endl;
 	}
 	if (enableDebugLayers) {
@@ -75,7 +75,7 @@ void App::createVkInstance() {
 
 }
 
-void App::setReqExtensions() {
+void App::loadExtensions() {
 	unsigned int extCount = 0;
 	const char** exts;
 	exts = glfwGetRequiredInstanceExtensions(&extCount);
@@ -85,17 +85,19 @@ void App::setReqExtensions() {
 	if (enableDebugLayers) {
 		reqExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
 	}
-	if (!extHelper.areExtensionsPresent(reqExtensions)) {
+	extHelper.query(std::bind(vkEnumerateInstanceExtensionProperties, nullptr, std::placeholders::_1, std::placeholders::_2));
+	if (!extHelper.areNamesPresent(reqExtensions)) {
 		throw std::runtime_error("Required extensions not present.");
 	}
 
 }
 
-void App::setReqLayers() {
+void App::loadLayers() {
 	if (enableDebugLayers) {
 		reqLayers.push_back("VK_LAYER_LUNARG_standard_validation");
 	}	
-	if (!layerHelper.areLayersPresent(reqLayers)) {
+	layerHelper.query(vkEnumerateInstanceLayerProperties);
+	if (!layerHelper.areNamesPresent(reqLayers)) {
 		throw std::runtime_error("Required validation layers not present");
 	}
 }

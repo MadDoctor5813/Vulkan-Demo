@@ -7,7 +7,7 @@
 #include <functional>
 
 #include "vkhelpers\VkWrapper.h"
-#include "vkhelpers\ExtensionHelper.h"
+#include "vkhelpers\VkQueryHelper.h"
 #include "vkhelpers\LayerHelper.h"
 #include "vkhelpers\DeviceHelper.h"
 
@@ -37,8 +37,8 @@ private:
 	const bool enableDebugLayers = true;
 #endif
 
-	ExtensionHelper extHelper;
-	LayerHelper layerHelper;
+	VkQueryHelper<VkExtensionProperties> extHelper;
+	VkQueryHelper<VkLayerProperties> layerHelper;
 	DeviceHelper deviceHelper;
 
 	
@@ -49,8 +49,8 @@ private:
 	void initVulkan();
 	
 	void createVkInstance();
-	void setReqExtensions();
-	void setReqLayers();
+	void loadExtensions();
+	void loadLayers();
 	void setDebugCallback();
 	static void destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator);
 

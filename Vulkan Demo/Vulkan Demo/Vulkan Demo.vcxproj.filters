@@ -21,9 +21,6 @@
     <ClCompile Include="App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vkhelpers\ExtensionHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="vkhelpers\LayerHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -35,9 +32,6 @@
     <ClInclude Include="App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vkhelpers\ExtensionHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="vkhelpers\VkWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -45,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vkhelpers\DeviceHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vkhelpers\VkQueryHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
