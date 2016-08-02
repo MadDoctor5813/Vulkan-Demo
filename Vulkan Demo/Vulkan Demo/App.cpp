@@ -51,6 +51,7 @@ void App::initVulkan() {
 		setDebugCallback();
 	}
 	deviceHelper.selectPhysicalDevice();
+	deviceHelper.createLogicalDevice();
 }
 
 void App::createVkInstance() {

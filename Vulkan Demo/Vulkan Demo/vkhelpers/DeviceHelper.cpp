@@ -31,6 +31,25 @@ void DeviceHelper::selectPhysicalDevice() {
 	throw std::runtime_error("Could not find suitable physical device.");
 }
 
+void DeviceHelper::createLogicalDevice() {
+	VkDeviceQueueCreateInfo queueInfo = {};
+	queueInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+	queueInfo.queueFamilyIndex = deviceQueueIndex;
+	queueInfo.queueCount = 1;
+	float priority = 1.0f;
+	queueInfo.pQueuePriorities = &priority;
+	VkPhysicalDeviceFeatures features = {};
+	VkDeviceCreateInfo deviceInfo = {};
+	deviceInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+	deviceInfo.pQueueCreateInfos = &queueInfo;
+	deviceInfo.queueCreateInfoCount = 1;
+	deviceInfo.enabledLayerCount = app.getReqLayers().size();
+	deviceInfo.ppEnabledLayerNames = app.getReqLayers().data();
+	if (vkCreateDevice(physDevice, &deviceInfo, nullptr, &device) != VK_SUCCESS) {
+		throw std::runtime_error("Failed to create vkLogicalDevice.");
+	}
+}
+
 bool DeviceHelper::isSuitableDevice(VkPhysicalDevice device) {
 	VkPhysicalDeviceProperties props;
 	vkGetPhysicalDeviceProperties(device, &props);
