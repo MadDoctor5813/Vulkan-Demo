@@ -28,10 +28,6 @@ bool ExtensionHelper::areExtensionsPresent(const std::vector<const char*>& names
 	return true;
 }
 
-PFN_vkVoidFunction ExtensionHelper::loadExtensionProc(const std::string & name) {
-	return vkGetInstanceProcAddr(app.getInstance(), name.c_str());
-}
-
 void ExtensionHelper::queryExtensions() {
 	unsigned int extCount;
 	vkEnumerateInstanceExtensionProperties(nullptr, &extCount, nullptr);

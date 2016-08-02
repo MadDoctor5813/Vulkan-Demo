@@ -16,7 +16,6 @@ public:
 	bool isExtensionPresent(const char* name);
 	bool areExtensionsPresent(const std::vector<const char*>& names);
 
-	PFN_vkVoidFunction loadExtensionProc(const std::string& name);
 
 private:
 	App& app;
