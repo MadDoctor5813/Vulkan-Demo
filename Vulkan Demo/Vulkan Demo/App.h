@@ -20,6 +20,8 @@ public:
 	void runLoop();
 
 	VkInstance getInstance() { return vkInstance; }
+	std::vector<const char*>& getReqExtensions() { return reqExtensions; }
+	std::vector<const char*>& getReqLayers() { return reqLayers; }
 
 private:
 	GLFWwindow * window;
