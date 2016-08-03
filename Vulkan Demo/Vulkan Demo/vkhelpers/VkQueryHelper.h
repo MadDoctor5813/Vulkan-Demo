@@ -45,6 +45,13 @@ public:
 		queryFunc(&count, foundNames.data());
 	}
 
+
+	void listNames(std::ostream& stream) {
+		for (auto name : foundNames) {
+			stream << getName(name) << std::endl;
+		}
+	}
+
 private:
 
 	std::vector<T> foundNames;

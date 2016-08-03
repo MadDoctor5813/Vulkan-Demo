@@ -40,13 +40,9 @@ void App::initVulkan() {
 	loadLayers();
 	createVkInstance();
 	std::cout << "Loaded extensions: " << std::endl;
-	for (auto ext : extHelper.getNames()) {
-		std::cout << ext.extensionName << std::endl;
-	}
+	extHelper.listNames(std::cout);
 	std::cout << "Available layers: " << std::endl;
-	for (auto layer : layerHelper.getNames()) {
-		std::cout << layer.layerName << std::endl;
-	}
+	layerHelper.listNames(std::cout);
 	if (enableDebugLayers) {
 		setDebugCallback();
 	}
