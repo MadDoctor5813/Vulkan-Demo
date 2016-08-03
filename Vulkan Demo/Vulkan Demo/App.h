@@ -19,6 +19,7 @@ public:
 	void runLoop();
 
 	VkInstance getInstance() { return vkInstance; }
+	VkSurfaceKHR getSurface() { return vkSurface; }
 	std::vector<const char*>& getReqExtensions() { return reqExtensions; }
 	std::vector<const char*>& getReqLayers() { return reqLayers; }
 
@@ -26,6 +27,7 @@ private:
 	GLFWwindow * window;
 	VkWrapper<VkInstance> vkInstance{ vkDestroyInstance };
 	VkWrapper<VkDebugReportCallbackEXT> vkCallback{ vkInstance, destroyDebugCallback };
+	VkWrapper<VkSurfaceKHR> vkSurface{ vkInstance, vkDestroySurfaceKHR };
 
 	std::vector<const char*> reqExtensions;
 	std::vector<const char*> reqLayers;
@@ -51,6 +53,8 @@ private:
 	void loadExtensions();
 	void loadLayers();
 	void setDebugCallback();
+	void createVkSurface();
+
 	static void destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator);
 
 	static VkBool32 debugLayerCallback(

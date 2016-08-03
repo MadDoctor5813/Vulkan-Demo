@@ -50,6 +50,7 @@ void App::initVulkan() {
 	if (enableDebugLayers) {
 		setDebugCallback();
 	}
+	createVkSurface();
 	deviceHelper.selectPhysicalDevice();
 	deviceHelper.createLogicalDevice();
 }
@@ -109,6 +110,12 @@ void App::setDebugCallback() {
 	callbackInfo.pfnCallback = (PFN_vkDebugReportCallbackEXT) debugLayerCallback;
 	auto callbackCreateFunc = (PFN_vkCreateDebugReportCallbackEXT) vkGetInstanceProcAddr(vkInstance, "vkCreateDebugReportCallbackEXT");
 	callbackCreateFunc(vkInstance, &callbackInfo, nullptr, &vkCallback);
+}
+
+void App::createVkSurface() {
+	if (glfwCreateWindowSurface(vkInstance, window, nullptr, &vkSurface) != VK_SUCCESS) {
+		throw std::runtime_error("Could not create vkSurface.");
+	}
 }
 
 void App::destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator) {
