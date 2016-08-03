@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <vector>
 #include <set>
+#include <iostream>
 
 #include "App.h"
 
@@ -90,6 +91,8 @@ bool DeviceHelper::isSuitableDevice(VkPhysicalDevice device, QueueInfo info) {
 		return false;
 	}
 	deviceExtHelper.query(std::bind(vkEnumerateDeviceExtensionProperties, device, nullptr, std::placeholders::_1, std::placeholders::_2));
+	std::cout << "Loaded device extensions:" << std::endl;
+	deviceExtHelper.listNames(std::cout);
 	if (!deviceExtHelper.areNamesPresent(deviceReqExtensions)) {
 		return false;
 	}
