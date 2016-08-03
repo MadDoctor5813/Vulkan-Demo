@@ -20,18 +20,9 @@ public:
 
 	std::vector<T>& getNames() { return foundNames; };
 
-	bool isNamePresent(const char* name, std::vector<VkExtensionProperties> exts) {
-		for (auto ext : exts) {
-			if (strcmp(ext.extensionName, name) == 0) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	bool isNamePresent(const char* name, std::vector<VkLayerProperties> layers) {
-		for (auto layer : layers) {
-			if (strcmp(layer.layerName, name) == 0) {
+	bool isNamePresent(const char* name) {
+		for (auto foundName : foundNames) {
+			if (strcmp(getName(foundName), name) == 0) {
 				return true;
 			}
 		}
@@ -40,7 +31,7 @@ public:
 
 	bool areNamesPresent(const std::vector<const char*>& names) {
 		for (auto name : names) {
-			if (!isNamePresent(name, foundNames)) {
+			if (!isNamePresent(name)) {
 				return false;
 			}
 		}
@@ -57,6 +48,14 @@ public:
 private:
 
 	std::vector<T> foundNames;
+
+	const char* getName(VkExtensionProperties& props) {
+		return props.extensionName;
+	}
+
+	const char* getName(VkLayerProperties& props) {
+		return props.layerName;
+	}
 
 };
 
