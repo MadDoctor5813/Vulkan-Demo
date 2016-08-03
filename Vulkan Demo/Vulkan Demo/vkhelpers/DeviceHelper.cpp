@@ -53,6 +53,8 @@ void DeviceHelper::createLogicalDevice() {
 	deviceInfo.queueCreateInfoCount = queueInfos.size();
 	deviceInfo.enabledLayerCount = app.getReqLayers().size();
 	deviceInfo.ppEnabledLayerNames = app.getReqLayers().data();
+	deviceInfo.enabledExtensionCount = deviceReqExtensions.size();
+	deviceInfo.ppEnabledExtensionNames = deviceReqExtensions.data();
 	if (vkCreateDevice(physDevice, &deviceInfo, nullptr, &device) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create vkLogicalDevice.");
 	}
