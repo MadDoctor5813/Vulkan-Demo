@@ -84,7 +84,14 @@ QueueInfo DeviceHelper::findQueues(VkPhysicalDevice device) {
 }
 
 bool DeviceHelper::isSuitableDevice(VkPhysicalDevice device, QueueInfo info) {
-	return info.hasQueues();
+	if (!info.hasQueues()) {
+		return false;
+	}
+	deviceExtHelper.query(std::bind(vkEnumerateDeviceExtensionProperties, device, nullptr, std::placeholders::_1, std::placeholders::_2));
+	if (!deviceExtHelper.areNamesPresent(deviceReqExtensions)) {
+		return false;
+	}
+	return true;
 }
 
 

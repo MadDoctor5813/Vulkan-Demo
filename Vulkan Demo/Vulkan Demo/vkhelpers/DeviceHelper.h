@@ -1,8 +1,10 @@
 #pragma once
 
 #include <vulkan\vulkan.h>
+#include <vector>
 
 #include "VkWrapper.h"
+#include "VkQueryHelper.h"
 
 struct QueueInfo {
 	int graphicsQueueIdx = -1;
@@ -36,5 +38,11 @@ private:
 
 	QueueInfo findQueues(VkPhysicalDevice device);
 	bool isSuitableDevice(VkPhysicalDevice device, QueueInfo info);
+
+
+	VkQueryHelper<VkExtensionProperties> deviceExtHelper;
+	std::vector<const char*> deviceReqExtensions {
+		VK_KHR_SWAPCHAIN_EXTENSION_NAME	
+	};
 };
 
