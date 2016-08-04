@@ -116,6 +116,41 @@ void App::createVkSurface() {
 }
 
 void App::createSwapChain() {
+	VkSwapchainCreateInfoKHR createInfo = {};
+	SwapChainDetails details = deviceHelper.getSwapDetails();
+	QueueInfo queueInfo = deviceHelper.getQueueInfo();
+	VkSurfaceFormatKHR format = deviceHelper.selectDeviceSurfaceFormat();
+	VkPresentModeKHR mode = deviceHelper.selectDevicePresentMode();
+	VkExtent2D extent = deviceHelper.selectDeviceExtent();
+	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+	createInfo.surface = vkSurface;
+	//the +1 is for triple buffering
+	createInfo.minImageCount = details.caps.minImageCount + 1;
+	createInfo.imageFormat = format.format;
+	createInfo.imageColorSpace = format.colorSpace;
+	createInfo.presentMode = mode;
+	createInfo.imageExtent = extent;
+	createInfo.imageArrayLayers = 1;
+	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+	//determine sharing mode based on whether the present and graphics queues differ
+	uint32_t queueIdxArr[] = { queueInfo.graphicsQueueIdx, queueInfo.presentQueueIdx };
+	if (queueInfo.graphicsQueueIdx != queueInfo.presentQueueIdx) {
+		createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+		createInfo.queueFamilyIndexCount = 2;
+		createInfo.pQueueFamilyIndices = queueIdxArr;
+	}
+	else {
+		createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+	}
+	createInfo.preTransform = details.caps.currentTransform;
+	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+	createInfo.presentMode = mode;
+	createInfo.clipped = VK_TRUE;
+	createInfo.oldSwapchain = VK_NULL_HANDLE;
+	if (vkCreateSwapchainKHR(deviceHelper.getDevice(), &createInfo, nullptr, &vkSwapChain) != VK_SUCCESS) {
+		throw std::runtime_error("Failed to create VkSwapChain");
+	}
+
 }
 
 void App::destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator) {

@@ -31,6 +31,7 @@ private:
 	VkWrapper<VkInstance> vkInstance{ vkDestroyInstance };
 	VkWrapper<VkDebugReportCallbackEXT> vkCallback{ vkInstance, destroyDebugCallback };
 	VkWrapper<VkSurfaceKHR> vkSurface{ vkInstance, vkDestroySurfaceKHR };
+	VkWrapper<VkSwapchainKHR> vkSwapChain{ deviceHelper.getDeviceWrapper(), vkDestroySwapchainKHR };
 
 	std::vector<const char*> reqExtensions;
 	std::vector<const char*> reqLayers;
@@ -44,8 +45,6 @@ private:
 	VkQueryHelper<VkExtensionProperties> extHelper;
 	VkQueryHelper<VkLayerProperties> layerHelper;
 	DeviceHelper deviceHelper;
-
-	
 
 	void initGLFW();
 	void initVulkan();
