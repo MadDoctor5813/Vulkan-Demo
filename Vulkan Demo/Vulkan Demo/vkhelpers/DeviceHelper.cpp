@@ -4,6 +4,8 @@
 #include <vector>
 #include <set>
 #include <iostream>
+#include <limits>
+#include <algorithm>
 
 #include "App.h"
 
@@ -63,6 +65,42 @@ void DeviceHelper::createLogicalDevice() {
 	}
 	vkGetDeviceQueue(device, physDeviceQueueInfo.graphicsQueueIdx, 0, &graphicsQueue);
 	vkGetDeviceQueue(device, physDeviceQueueInfo.presentQueueIdx, 0, &presentQueue);
+}
+
+VkSurfaceFormatKHR DeviceHelper::selectDeviceSurface() {
+	VkSurfaceFormatKHR desiredFormat{ VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR };
+	if (physDeviceSwapDetails.formats.size == 1 && physDeviceSwapDetails.formats[0].format == VK_FORMAT_UNDEFINED) {
+		return desiredFormat;
+	}
+	for (auto format : physDeviceSwapDetails.formats) {
+		if (format.format == desiredFormat.format && format.colorSpace == desiredFormat.colorSpace) {
+			return format;
+		}
+	}
+	throw std::runtime_error("Could not find proper surface format.");
+}
+
+VkPresentModeKHR DeviceHelper::selectDevicePresentMode() {
+	for (auto mode : physDeviceSwapDetails.modes) {
+		if (mode == VK_PRESENT_MODE_MAILBOX_KHR) {
+			return mode;
+		}
+	}
+	return VK_PRESENT_MODE_FIFO_KHR;
+}
+
+VkExtent2D DeviceHelper::selectDeviceExtent() {
+	//if the extents are max use the provided extent
+	if (physDeviceSwapDetails.caps.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
+		return physDeviceSwapDetails.caps.currentExtent;
+	}
+	//select our own extent using the max and min extents from the capablities struct
+	else {
+		VkExtent2D extent { app.WIDTH, app.HEIGHT };
+		extent.width = std::max(physDeviceSwapDetails.caps.maxImageExtent.width, std::min(extent.width, physDeviceSwapDetails.caps.minImageExtent.width));
+		extent.height = std::max(physDeviceSwapDetails.caps.maxImageExtent.height, std::min(extent.height, physDeviceSwapDetails.caps.minImageExtent.height));
+		return extent;
+	}
 }
 
 QueueInfo DeviceHelper::findQueues(VkPhysicalDevice device) {

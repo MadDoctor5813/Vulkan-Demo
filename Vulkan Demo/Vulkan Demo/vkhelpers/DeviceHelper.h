@@ -40,6 +40,10 @@ public:
 	void selectPhysicalDevice();
 	void createLogicalDevice();
 
+	VkSurfaceFormatKHR selectDeviceSurface();
+	VkPresentModeKHR selectDevicePresentMode();
+	VkExtent2D selectDeviceExtent();
+
 private:
 	App& app;
 
