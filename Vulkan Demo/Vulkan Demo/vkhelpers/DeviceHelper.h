@@ -45,10 +45,11 @@ private:
 
 	VkPhysicalDevice physDevice;
 	QueueInfo physDeviceQueueInfo;
+	SwapChainDetails physDeviceSwapDetails;
 
 	QueueInfo findQueues(VkPhysicalDevice device);
 	SwapChainDetails querySwapChain(VkPhysicalDevice device);
-	bool isSuitableDevice(VkPhysicalDevice device);
+	bool isSuitableDevice(VkPhysicalDevice device, QueueInfo info, SwapChainDetails details);
 
 
 	VkQueryHelper<VkExtensionProperties> deviceExtHelper;

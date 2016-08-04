@@ -25,9 +25,11 @@ void DeviceHelper::selectPhysicalDevice() {
 	vkEnumeratePhysicalDevices(app.getInstance(), &deviceCount, devices.data());
 	//select the best device
 	for (auto device : devices) {
-		QueueInfo info = findQueues(device);
-		if (isSuitableDevice(device)) {
+		QueueInfo info;
+		SwapChainDetails details;
+		if (isSuitableDevice(device, info, details)) {
 			physDeviceQueueInfo = info;
+			physDeviceSwapDetails = details;
 			physDevice = device;
 			return;
 		}	
@@ -104,13 +106,11 @@ SwapChainDetails DeviceHelper::querySwapChain(VkPhysicalDevice device) {
 	return details;
 }
 
-bool DeviceHelper::isSuitableDevice(VkPhysicalDevice device) {
-	QueueInfo queueInfo = findQueues(device);
-	SwapChainDetails swapDetails = querySwapChain(device);
+bool DeviceHelper::isSuitableDevice(VkPhysicalDevice device, QueueInfo info, SwapChainDetails swapDetails) {
 	deviceExtHelper.query(std::bind(vkEnumerateDeviceExtensionProperties, device, nullptr, std::placeholders::_1, std::placeholders::_2));
 	std::cout << "Loaded device extensions:" << std::endl;
 	deviceExtHelper.listNames(std::cout);
-	return queueInfo.hasQueues() && swapDetails.isCompatible() && deviceExtHelper.areNamesPresent(deviceReqExtensions);
+	return info.hasQueues() && swapDetails.isCompatible() && deviceExtHelper.areNamesPresent(deviceReqExtensions);
 }
 
 
