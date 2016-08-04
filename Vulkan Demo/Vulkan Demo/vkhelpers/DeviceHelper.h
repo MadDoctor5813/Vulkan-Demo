@@ -41,6 +41,7 @@ public:
 	void createLogicalDevice();
 
 	SwapChainDetails& getSwapDetails() { return physDeviceSwapDetails; }
+	QueueInfo& getQueueInfo() { return physDeviceQueueInfo; }
 
 	VkSurfaceFormatKHR selectDeviceSurfaceFormat();
 	VkPresentModeKHR selectDevicePresentMode();
