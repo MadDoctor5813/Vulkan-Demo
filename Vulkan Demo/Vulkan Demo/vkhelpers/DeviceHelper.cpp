@@ -27,8 +27,8 @@ void DeviceHelper::selectPhysicalDevice() {
 	vkEnumeratePhysicalDevices(app.getInstance(), &deviceCount, devices.data());
 	//select the best device
 	for (auto device : devices) {
-		QueueInfo info;
-		SwapChainDetails details;
+		QueueInfo info = getQueueInfo();
+		SwapChainDetails details = querySwapChain();
 		if (isSuitableDevice(device, info, details)) {
 			physDeviceQueueInfo = info;
 			physDeviceSwapDetails = details;
