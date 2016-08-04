@@ -40,6 +40,8 @@ public:
 	void selectPhysicalDevice();
 	void createLogicalDevice();
 
+	SwapChainDetails& getSwapDetails() { return physDeviceSwapDetails; }
+
 	VkSurfaceFormatKHR selectDeviceSurfaceFormat();
 	VkPresentModeKHR selectDevicePresentMode();
 	VkExtent2D selectDeviceExtent();
