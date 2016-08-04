@@ -67,7 +67,7 @@ void DeviceHelper::createLogicalDevice() {
 	vkGetDeviceQueue(device, physDeviceQueueInfo.presentQueueIdx, 0, &presentQueue);
 }
 
-VkSurfaceFormatKHR DeviceHelper::selectDeviceSurface() {
+VkSurfaceFormatKHR DeviceHelper::selectDeviceSurfaceFormat() {
 	VkSurfaceFormatKHR desiredFormat{ VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR };
 	if (physDeviceSwapDetails.formats.size == 1 && physDeviceSwapDetails.formats[0].format == VK_FORMAT_UNDEFINED) {
 		return desiredFormat;
