@@ -35,6 +35,8 @@ public:
 	VkQueue graphicsQueue;
 	VkQueue presentQueue;
 
+	VkDevice getDevice() { return device; }
+
 	void selectPhysicalDevice();
 	void createLogicalDevice();
 

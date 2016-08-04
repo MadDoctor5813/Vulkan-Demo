@@ -49,6 +49,7 @@ void App::initVulkan() {
 	createVkSurface();
 	deviceHelper.selectPhysicalDevice();
 	deviceHelper.createLogicalDevice();
+	createSwapChain();
 }
 
 void App::createVkInstance() {
@@ -112,6 +113,9 @@ void App::createVkSurface() {
 	if (glfwCreateWindowSurface(vkInstance, window, nullptr, &vkSurface) != VK_SUCCESS) {
 		throw std::runtime_error("Could not create vkSurface.");
 	}
+}
+
+void App::createSwapChain() {
 }
 
 void App::destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator) {

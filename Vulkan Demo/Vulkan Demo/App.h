@@ -54,6 +54,7 @@ private:
 	void loadLayers();
 	void setDebugCallback();
 	void createVkSurface();
+	void createSwapChain();
 
 	static void destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator);
 
