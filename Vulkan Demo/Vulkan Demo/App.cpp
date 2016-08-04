@@ -150,6 +150,13 @@ void App::createSwapChain() {
 	if (vkCreateSwapchainKHR(deviceHelper.getDevice(), &createInfo, nullptr, &vkSwapChain) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create VkSwapChain");
 	}
+	unsigned int imageCount;
+	vkGetSwapchainImagesKHR(deviceHelper.getDevice(), vkSwapChain, &imageCount, nullptr);
+	swapImages.resize(imageCount);
+	vkGetSwapchainImagesKHR(deviceHelper.getDevice(), vkSwapChain, &imageCount, swapImages.data());
+	swapFormat = createInfo.imageFormat;
+	swapExtent = createInfo.imageExtent;
+}
 
 }
 

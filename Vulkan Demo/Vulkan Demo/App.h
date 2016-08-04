@@ -32,6 +32,10 @@ private:
 	VkWrapper<VkDebugReportCallbackEXT> vkCallback{ vkInstance, destroyDebugCallback };
 	VkWrapper<VkSurfaceKHR> vkSurface{ vkInstance, vkDestroySurfaceKHR };
 	VkWrapper<VkSwapchainKHR> vkSwapChain{ deviceHelper.getDeviceWrapper(), vkDestroySwapchainKHR };
+	std::vector<VkImage> swapImages;
+
+	VkFormat swapFormat;
+	VkExtent2D swapExtent;
 
 	std::vector<const char*> reqExtensions;
 	std::vector<const char*> reqLayers;
