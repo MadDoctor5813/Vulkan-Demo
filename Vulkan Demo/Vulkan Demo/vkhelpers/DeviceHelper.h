@@ -36,6 +36,7 @@ public:
 	VkQueue presentQueue;
 
 	VkDevice getDevice() { return device; }
+	VkWrapper<VkDevice>& getDeviceWrapper() { return device; }
 
 	void selectPhysicalDevice();
 	void createLogicalDevice();
