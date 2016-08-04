@@ -33,6 +33,7 @@ private:
 	VkWrapper<VkSurfaceKHR> vkSurface{ vkInstance, vkDestroySurfaceKHR };
 	VkWrapper<VkSwapchainKHR> vkSwapChain{ deviceHelper.getDeviceWrapper(), vkDestroySwapchainKHR };
 	std::vector<VkImage> swapImages;
+	std::vector<VkWrapper<VkImageView>> vkImageViews;
 
 	VkFormat swapFormat;
 	VkExtent2D swapExtent;
@@ -59,6 +60,7 @@ private:
 	void setDebugCallback();
 	void createVkSurface();
 	void createSwapChain();
+	void createImageViews();
 
 	static void destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator);
 
