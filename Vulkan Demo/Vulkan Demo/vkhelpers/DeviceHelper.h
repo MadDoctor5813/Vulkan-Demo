@@ -15,6 +15,16 @@ struct QueueInfo {
 	}
 };
 
+struct SwapChainDetails {
+	VkSurfaceCapabilitiesKHR caps;
+	std::vector<VkSurfaceFormatKHR> formats;
+	std::vector<VkPresentModeKHR> modes;
+
+	bool isCompatible() {
+		return !formats.empty() && !modes.empty();
+	}
+};
+
 class App;
 
 class DeviceHelper {
@@ -37,7 +47,8 @@ private:
 	QueueInfo physDeviceQueueInfo;
 
 	QueueInfo findQueues(VkPhysicalDevice device);
-	bool isSuitableDevice(VkPhysicalDevice device, QueueInfo info);
+	SwapChainDetails querySwapChain(VkPhysicalDevice device);
+	bool isSuitableDevice(VkPhysicalDevice device);
 
 
 	VkQueryHelper<VkExtensionProperties> deviceExtHelper;
