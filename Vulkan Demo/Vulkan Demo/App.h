@@ -23,6 +23,9 @@ public:
 	std::vector<const char*>& getReqExtensions() { return reqExtensions; }
 	std::vector<const char*>& getReqLayers() { return reqLayers; }
 
+	const int WIDTH = 720;
+	const int HEIGHT = 480;
+
 private:
 	GLFWwindow * window;
 	VkWrapper<VkInstance> vkInstance{ vkDestroyInstance };
@@ -43,8 +46,6 @@ private:
 	DeviceHelper deviceHelper;
 
 	
-	const int WIDTH = 720;
-	const int HEIGHT = 480;
 
 	void initGLFW();
 	void initVulkan();
