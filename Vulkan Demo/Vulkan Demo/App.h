@@ -28,9 +28,14 @@ public:
 
 private:
 	GLFWwindow * window;
+
+	VkQueryHelper<VkExtensionProperties> extHelper;
+	VkQueryHelper<VkLayerProperties> layerHelper;
+
 	VkWrapper<VkInstance> vkInstance{ vkDestroyInstance };
 	VkWrapper<VkDebugReportCallbackEXT> vkCallback{ vkInstance, destroyDebugCallback };
 	VkWrapper<VkSurfaceKHR> vkSurface{ vkInstance, vkDestroySurfaceKHR };
+	DeviceHelper deviceHelper;
 	VkWrapper<VkSwapchainKHR> vkSwapChain{ deviceHelper.getDeviceWrapper(), vkDestroySwapchainKHR };
 	std::vector<VkImage> swapImages;
 	std::vector<VkWrapper<VkImageView>> vkImageViews;
@@ -47,9 +52,6 @@ private:
 	const bool enableDebugLayers = true;
 #endif
 
-	VkQueryHelper<VkExtensionProperties> extHelper;
-	VkQueryHelper<VkLayerProperties> layerHelper;
-	DeviceHelper deviceHelper;
 
 	void initGLFW();
 	void initVulkan();
