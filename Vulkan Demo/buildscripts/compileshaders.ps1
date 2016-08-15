@@ -8,6 +8,7 @@ foreach ($item in Get-ChildItem $sourcePath)
 {
 	$rawShaderPath = [IO.Path]::GetFullPath($sourcePath + $item);
 	$outputShaderPath = [IO.Path]::GetFullPath($outPath + $item);
+	$outputShaderPath = ($outputShaderPath + ".spv");
 	Write-Host $rawShaderPath;
 	Write-Host $outputShaderPath;
 	& $compilerPath $rawShaderPath -V -o $outputShaderPath;
