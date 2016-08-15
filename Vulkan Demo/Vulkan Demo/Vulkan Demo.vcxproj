@@ -98,6 +98,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>powershell Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+powershell -file "$(SolutionDir)buildscripts/compileshaders.ps1" "$(SolutionDir)resources/shadersource/" "$(SolutionDir)resources/shaders/" C:\VulkanSDK\1.0.17.0\Bin32\glslangvalidator.exe
+robocopy "$(SolutionDir)resources/shaders/" "$(TargetDir)shaders/"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -129,6 +134,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>powershell Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+powershell -file "$(SolutionDir)buildscripts/compileshaders.ps1" "$(SolutionDir)resources/shadersource/" "$(SolutionDir)resources/shaders/" C:\VulkanSDK\1.0.17.0\Bin32\glslangvalidator.exe
+robocopy "$(SolutionDir)resources/shaders/" "$(TargetDir)shaders/"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
