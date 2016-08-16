@@ -24,7 +24,20 @@ void ShaderLoader::loadShaders() {
 }
 
 VkPipelineShaderStageCreateInfo ShaderLoader::getShaderInfo(const std::string & name) {
-	return VkPipelineShaderStageCreateInfo();
+	fs::path namePath(name);
+	VkPipelineShaderStageCreateInfo createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	createInfo.module = shaders.at(namePath);
+	createInfo.pName = "main";
+	//auto determine the shader stage from the name
+	std::string stage = namePath.stem().extension().string();
+	if (stage == ".vert") {
+		createInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
+	}
+	else if (stage == ".frag") {
+		createInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+	}
+	return createInfo;
 }
 
 std::vector<char> ShaderLoader::readBinaryFile(fs::path path) {
