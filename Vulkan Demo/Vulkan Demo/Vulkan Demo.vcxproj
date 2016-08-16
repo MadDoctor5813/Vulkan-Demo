@@ -101,7 +101,8 @@
     <PostBuildEvent>
       <Command>powershell Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 powershell -file "$(SolutionDir)buildscripts/compileshaders.ps1" "$(SolutionDir)resources/shadersource/" "$(SolutionDir)resources/shaders/" C:\VulkanSDK\1.0.17.0\Bin32\glslangvalidator.exe
-robocopy "$(SolutionDir)resources/shaders/" "$(TargetDir)shaders/"</Command>
+robocopy "$(SolutionDir)resources/shaders/" "$(TargetDir)shaders/"
+if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -137,7 +138,8 @@ robocopy "$(SolutionDir)resources/shaders/" "$(TargetDir)shaders/"</Command>
     <PostBuildEvent>
       <Command>powershell Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 powershell -file "$(SolutionDir)buildscripts/compileshaders.ps1" "$(SolutionDir)resources/shadersource/" "$(SolutionDir)resources/shaders/" C:\VulkanSDK\1.0.17.0\Bin32\glslangvalidator.exe
-robocopy "$(SolutionDir)resources/shaders/" "$(TargetDir)shaders/"</Command>
+robocopy "$(SolutionDir)resources/shaders/" "$(TargetDir)shaders/"
+if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
