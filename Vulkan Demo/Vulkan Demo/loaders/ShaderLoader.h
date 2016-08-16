@@ -6,6 +6,8 @@
 #include <filesystem>
 #include <vulkan\vulkan.h>
 
+#include "vkhelpers\VkWrapper.h"
+
 namespace fs = std::tr2::sys;
 
 class ShaderLoader {
@@ -18,7 +20,7 @@ public:
 	VkPipelineShaderStageCreateInfo getShaderInfo(const std::string& name);
 
 private:
-	std::map<std::string, VkPipelineShaderStageCreateInfo> shaders;
+	std::map<std::string, VkWrapper<VkShaderModule>> shaders;
 
 	std::vector<char> readBinaryFile(fs::path path);
 	VkShaderModule createShaderModule(std::vector<char> data);
