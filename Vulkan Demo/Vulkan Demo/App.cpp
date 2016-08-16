@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-App::App() : deviceHelper(*this) {
+App::App() : deviceHelper(*this), shaderLoader(*this) {
 	
 	initGLFW();
 	initVulkan();
