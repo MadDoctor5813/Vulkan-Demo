@@ -18,8 +18,8 @@ void ShaderLoader::loadShaders() {
 	for (auto iter = fs::directory_iterator("shaders/"); iter != fs::directory_iterator(); iter++) {
 		auto binaryData = readBinaryFile(iter->path());
 		VkWrapper<VkShaderModule> shaderModule{ appRef.getDeviceHelper().getDeviceWrapper(), vkDestroyShaderModule };
-		shaders.emplace(iter->path().string(), shaderModule);
-		createShaderModule(binaryData, shaders.at(iter->path().string()));
+		shaders.emplace(iter->path(), shaderModule);
+		createShaderModule(binaryData, shaders.at(iter->path()));
 	}
 }
 

@@ -24,7 +24,7 @@ public:
 private:
 	App& appRef;
 
-	std::map<std::string, VkWrapper<VkShaderModule>> shaders;
+	std::map<fs::path, VkWrapper<VkShaderModule>> shaders;
 
 	std::vector<char> readBinaryFile(fs::path path);
 	void createShaderModule(std::vector<char> data, VkWrapper<VkShaderModule>& module);
