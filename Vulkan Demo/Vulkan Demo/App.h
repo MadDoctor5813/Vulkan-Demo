@@ -25,6 +25,8 @@ public:
 	std::vector<const char*>& getReqExtensions() { return reqExtensions; }
 	std::vector<const char*>& getReqLayers() { return reqLayers; }
 
+	DeviceHelper& getDeviceHelper() { return deviceHelper; }
+
 	const int WIDTH = 720;
 	const int HEIGHT = 480;
 
