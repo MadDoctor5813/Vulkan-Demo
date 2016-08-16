@@ -24,6 +24,9 @@
     <ClCompile Include="vkhelpers\DeviceHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="loaders\ShaderLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vkhelpers\VkQueryHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="loaders\ShaderLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

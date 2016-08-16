@@ -10,6 +10,8 @@
 #include "vkhelpers\VkQueryHelper.h"
 #include "vkhelpers\DeviceHelper.h"
 
+#include "loaders\ShaderLoader.h"
+
 class App {
 
 public:
@@ -45,6 +47,8 @@ private:
 
 	std::vector<const char*> reqExtensions;
 	std::vector<const char*> reqLayers;
+
+	ShaderLoader shaderLoader;
 
 #ifdef NDEBUG	
 	const bool enableDebugLayers = false;

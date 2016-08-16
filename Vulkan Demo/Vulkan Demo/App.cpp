@@ -51,6 +51,7 @@ void App::initVulkan() {
 	deviceHelper.createLogicalDevice();
 	createSwapChain();
 	createImageViews();
+	shaderLoader.loadShaders();
 }
 
 void App::createVkInstance() {
