@@ -3,8 +3,6 @@
 #include <filesystem>
 #include <iostream>
 
-namespace fs = std::tr2::sys;
-
 ShaderLoader::ShaderLoader() {
 }
 
@@ -14,7 +12,7 @@ ShaderLoader::~ShaderLoader() {
 
 void ShaderLoader::loadShaders() {
 	for (auto iter = fs::directory_iterator("shaders/"); iter != fs::directory_iterator(); iter++) {
-		std::cout << iter->path() << std::endl;
+		readBinaryFile(iter->path());
 	}
 }
 
@@ -22,7 +20,7 @@ VkPipelineShaderStageCreateInfo ShaderLoader::getShaderInfo(const std::string & 
 	return VkPipelineShaderStageCreateInfo();
 }
 
-std::vector<char> ShaderLoader::readBinaryFile(const std::string & path) {
+std::vector<char> ShaderLoader::readBinaryFile(fs::path path) {
 	return std::vector<char>();
 }
 
