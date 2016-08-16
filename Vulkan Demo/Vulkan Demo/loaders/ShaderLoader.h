@@ -27,7 +27,7 @@ private:
 	std::map<std::string, VkWrapper<VkShaderModule>> shaders;
 
 	std::vector<char> readBinaryFile(fs::path path);
-	VkShaderModule createShaderModule(std::vector<char> data);
+	void createShaderModule(std::vector<char> data, VkWrapper<VkShaderModule>& module);
 	VkPipelineShaderStageCreateInfo createShaderStage(VkShaderModule module);
 };
 
