@@ -44,6 +44,8 @@ private:
 	std::vector<VkImage> swapImages;
 	std::vector<VkWrapper<VkImageView>> vkImageViews;
 
+	VkWrapper<VkPipelineLayout> vkPipelineLayout{ deviceHelper.getDeviceWrapper(), vkDestroyPipelineLayout };
+
 	VkFormat swapFormat;
 	VkExtent2D swapExtent;
 
@@ -69,6 +71,7 @@ private:
 	void createVkSurface();
 	void createSwapChain();
 	void createImageViews();
+	void setupGraphicsPipeline();
 
 	static void destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator);
 
