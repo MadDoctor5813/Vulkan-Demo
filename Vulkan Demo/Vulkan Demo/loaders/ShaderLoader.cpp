@@ -16,28 +16,17 @@ ShaderLoader::~ShaderLoader() {
 
 void ShaderLoader::loadShaders() {
 	for (auto iter = fs::directory_iterator("shaders/"); iter != fs::directory_iterator(); iter++) {
+		shaders.emplace(std::piecewise_construct, std::forward_as_tuple(iter->path()), std::forward_as_tuple(VkWrapper<VkShaderModule> {appRef.getDeviceHelper().getDeviceWrapper(), vkDestroyShaderModule}, VkPipelineShaderStageCreateInfo()));
 		auto binaryData = readBinaryFile(iter->path());
-		VkWrapper<VkShaderModule> shaderModule{ appRef.getDeviceHelper().getDeviceWrapper(), vkDestroyShaderModule };
-		shaders.emplace(iter->path(), shaderModule);
-		createShaderModule(binaryData, shaders.at(iter->path()));
+		createShaderModule(binaryData, shaders.at(iter->path()).module);
+		auto stageInfo = createShaderStageInfo(shaders.at(iter->path()).module, getStageFromPath(iter->path()));
+		shaders.at(iter->path()).info = stageInfo;
 	}
 }
 
-VkPipelineShaderStageCreateInfo ShaderLoader::getShaderInfo(const std::string & name) {
+Shader& ShaderLoader::getShader(const std::string & name) {
 	fs::path namePath(name);
-	VkPipelineShaderStageCreateInfo createInfo = {};
-	createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-	createInfo.module = shaders.at(namePath);
-	createInfo.pName = "main";
-	//auto determine the shader stage from the name
-	std::string stage = namePath.stem().extension().string();
-	if (stage == ".vert") {
-		createInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-	}
-	else if (stage == ".frag") {
-		createInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	}
-	return createInfo;
+	return shaders.at(namePath);
 }
 
 std::vector<char> ShaderLoader::readBinaryFile(fs::path path) {
@@ -59,6 +48,21 @@ void ShaderLoader::createShaderModule(std::vector<char> data, VkWrapper<VkShader
 	}
 }
 
-VkPipelineShaderStageCreateInfo ShaderLoader::createShaderStage(VkShaderModule module) {
-	return VkPipelineShaderStageCreateInfo();
+VkPipelineShaderStageCreateInfo ShaderLoader::createShaderStageInfo(VkShaderModule module, VkShaderStageFlagBits stage) {
+	VkPipelineShaderStageCreateInfo createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	createInfo.module = module;
+	createInfo.pName = "main";
+	createInfo.stage = stage;
+	return createInfo;
+}
+
+VkShaderStageFlagBits ShaderLoader::getStageFromPath(fs::path path) {
+	std::string stageStr = path.filename().stem().extension().string();
+	if (stageStr == ".vert") {
+		return VK_SHADER_STAGE_VERTEX_BIT;
+	}
+	if (stageStr == ".frag") {
+		return VK_SHADER_STAGE_FRAGMENT_BIT;
+	}
 }
