@@ -232,6 +232,12 @@ void App::setupGraphicsPipeline() {
 	VkRect2D scissor = {};
 	scissor.offset = { 0, 0 };
 	scissor.extent = swapExtent;
+	VkPipelineViewportStateCreateInfo viewportState = {};
+	viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+	viewportState.viewportCount = 1;
+	viewportState.pViewports = &viewport;
+	viewportState.scissorCount = 1;
+	viewportState.pScissors = &scissor;
 	VkPipelineRasterizationStateCreateInfo rasterInfo = {};
 	rasterInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 	rasterInfo.depthClampEnable = false;
@@ -264,6 +270,24 @@ void App::setupGraphicsPipeline() {
 	layoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 	if (vkCreatePipelineLayout(deviceHelper.getDevice(), &layoutInfo, nullptr, &vkPipelineLayout) != VK_SUCCESS) {
 		throw std::runtime_error("Could not create pipeline layout.");
+	}
+	VkPipelineShaderStageCreateInfo shaderInfos[] = { shaderLoader.getShader("shaders/phongshading.vert.spv").info, shaderLoader.getShader("shaders/phongshading.frag.spv").info };
+	VkGraphicsPipelineCreateInfo pipelineInfo = {};
+	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+	pipelineInfo.stageCount = 2;
+	pipelineInfo.pStages = shaderInfos;
+	pipelineInfo.pVertexInputState = &vertexInputInfo;
+	pipelineInfo.pInputAssemblyState = &inputAssemblyInfo;
+	pipelineInfo.pViewportState = &viewportState;
+	pipelineInfo.pRasterizationState = &rasterInfo;
+	pipelineInfo.pMultisampleState = &multisampleInfo;
+	pipelineInfo.pColorBlendState = &blendInfo;
+	pipelineInfo.layout = vkPipelineLayout;
+	pipelineInfo.renderPass = vkRenderPass;
+	pipelineInfo.subpass = 0;
+	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
+	if (vkCreateGraphicsPipelines(deviceHelper.getDevice(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &vkGraphicsPipeline) != VK_SUCCESS) {
+		throw std::runtime_error("Could not create graphics pipeline.");
 	}
 
 }

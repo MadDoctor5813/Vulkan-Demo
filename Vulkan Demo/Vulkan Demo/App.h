@@ -46,6 +46,7 @@ private:
 
 	VkWrapper<VkRenderPass> vkRenderPass{ deviceHelper.getDeviceWrapper(), vkDestroyRenderPass };
 	VkWrapper<VkPipelineLayout> vkPipelineLayout{ deviceHelper.getDeviceWrapper(), vkDestroyPipelineLayout };
+	VkWrapper<VkPipeline> vkGraphicsPipeline{ deviceHelper.getDeviceWrapper(), vkDestroyPipeline };
 
 	VkFormat swapFormat;
 	VkExtent2D swapExtent;
