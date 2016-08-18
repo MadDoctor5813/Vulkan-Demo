@@ -52,6 +52,7 @@ void App::initVulkan() {
 	createSwapChain();
 	createImageViews();
 	shaderLoader.loadShaders();
+	setupGraphicsPipeline();
 }
 
 void App::createVkInstance() {
