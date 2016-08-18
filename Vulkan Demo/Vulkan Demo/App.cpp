@@ -52,6 +52,7 @@ void App::initVulkan() {
 	createSwapChain();
 	createImageViews();
 	shaderLoader.loadShaders();
+	createRenderPass();
 	setupGraphicsPipeline();
 }
 
@@ -182,6 +183,33 @@ void App::createImageViews() {
 		if (vkCreateImageView(deviceHelper.getDevice(), &createInfo, nullptr, &vkImageViews[i]) != VK_SUCCESS) {
 			throw std::runtime_error("Could not create vkImageView");
 		}
+	}
+}
+
+void App::createRenderPass() {
+	VkAttachmentDescription attachment = {};
+	attachment.format = swapFormat;
+	attachment.samples = VK_SAMPLE_COUNT_1_BIT;
+	attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+	attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+	attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	attachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+	VkAttachmentReference attachmentRef = {};
+	attachmentRef.attachment = 0;
+	attachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+	VkSubpassDescription subPass = {};
+	subPass.colorAttachmentCount = 1;
+	subPass.pColorAttachments = &attachmentRef;
+	VkRenderPassCreateInfo passInfo = {};
+	passInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+	passInfo.attachmentCount = 1;
+	passInfo.pAttachments = &attachment;
+	passInfo.subpassCount = 1;
+	passInfo.pSubpasses = &subPass;
+	if (vkCreateRenderPass(deviceHelper.getDevice(), &passInfo, nullptr, &vkRenderPass) != VK_SUCCESS) {
+		throw std::runtime_error("Could not create render pass.");
 	}
 }
 
