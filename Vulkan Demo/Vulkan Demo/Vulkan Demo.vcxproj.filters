@@ -27,6 +27,9 @@
     <ClCompile Include="loaders\ShaderLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="vkhelpers\GraphicsPipelineHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="loaders\ShaderLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vkhelpers\GraphicsPipelineHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

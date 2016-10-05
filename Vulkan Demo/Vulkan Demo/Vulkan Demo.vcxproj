@@ -161,12 +161,14 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="vkhelpers\GraphicsPipelineHelper.cpp" />
     <ClCompile Include="loaders\ShaderLoader.cpp" />
     <ClCompile Include="vkhelpers\DeviceHelper.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="vkhelpers\GraphicsPipelineHelper.h" />
     <ClInclude Include="loaders\ShaderLoader.h" />
     <ClInclude Include="vkhelpers\DeviceHelper.h" />
     <ClInclude Include="vkhelpers\VkQueryHelper.h" />

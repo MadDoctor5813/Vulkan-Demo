@@ -9,6 +9,7 @@
 #include "vkhelpers\VkWrapper.h"
 #include "vkhelpers\VkQueryHelper.h"
 #include "vkhelpers\DeviceHelper.h"
+#include "vkhelpers\GraphicsPipelineHelper.h"
 
 #include "loaders\ShaderLoader.h"
 
@@ -26,6 +27,9 @@ public:
 	std::vector<const char*>& getReqLayers() { return reqLayers; }
 
 	DeviceHelper& getDeviceHelper() { return deviceHelper; }
+	ShaderLoader& getShaderLoader() { return shaderLoader; }
+	VkFormat getSwapFormat() { return swapFormat; }
+	VkExtent2D getSwapExtent() { return swapExtent; }
 
 	const int WIDTH = 720;
 	const int HEIGHT = 480;
@@ -44,9 +48,7 @@ private:
 	std::vector<VkImage> swapImages;
 	std::vector<VkWrapper<VkImageView>> vkImageViews;
 
-	VkWrapper<VkRenderPass> vkRenderPass{ deviceHelper.getDeviceWrapper(), vkDestroyRenderPass };
-	VkWrapper<VkPipelineLayout> vkPipelineLayout{ deviceHelper.getDeviceWrapper(), vkDestroyPipelineLayout };
-	VkWrapper<VkPipeline> vkGraphicsPipeline{ deviceHelper.getDeviceWrapper(), vkDestroyPipeline };
+	GraphicsPipelineHelper graphicsPipelineHelper;
 
 	VkFormat swapFormat;
 	VkExtent2D swapExtent;
@@ -78,7 +80,7 @@ private:
 
 	static void destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator);
 
-	static VkBool32 debugLayerCallback(
+	static VkBool32 _stdcall debugLayerCallback(
 		VkDebugReportFlagsEXT flags,
 		VkDebugReportObjectTypeEXT objType,
 		uint64_t obj,
