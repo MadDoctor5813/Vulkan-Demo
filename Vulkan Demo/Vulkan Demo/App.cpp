@@ -297,7 +297,7 @@ void App::destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT cal
 	destroyFunc(instance, callback, allocator);
 }
 
-VkBool32 App::debugLayerCallback(
+VkBool32 _stdcall App::debugLayerCallback(
 	VkDebugReportFlagsEXT flags,
 	VkDebugReportObjectTypeEXT objType,
 	uint64_t obj,
