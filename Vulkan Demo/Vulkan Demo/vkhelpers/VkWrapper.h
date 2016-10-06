@@ -30,6 +30,11 @@ public:
 		return &object;
 	}
 
+	T* replace() {
+		cleanup();
+		return &object;
+	}
+
 	operator T() const {
 		return object;
 	}
