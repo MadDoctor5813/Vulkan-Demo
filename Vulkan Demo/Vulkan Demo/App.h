@@ -47,6 +47,7 @@ private:
 	VkWrapper<VkSwapchainKHR> vkSwapChain{ deviceHelper.getDeviceWrapper(), vkDestroySwapchainKHR };
 	std::vector<VkImage> swapImages;
 	std::vector<VkWrapper<VkImageView>> vkImageViews;
+	std::vector<VkWrapper<VkFramebuffer>> swapFrameBuffers;
 
 	GraphicsPipelineHelper graphicsPipelineHelper;
 
@@ -75,6 +76,7 @@ private:
 	void createVkSurface();
 	void createSwapChain();
 	void createImageViews();
+	void createFramebuffers();
 
 	static void destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator);
 

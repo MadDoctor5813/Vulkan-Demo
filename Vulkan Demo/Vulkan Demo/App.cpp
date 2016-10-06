@@ -186,6 +186,26 @@ void App::createImageViews() {
 	}
 }
 
+void App::createFramebuffers() {
+	swapFrameBuffers.resize(swapImages.size(), VkWrapper<VkFramebuffer> { deviceHelper.getDeviceWrapper(), vkDestroyFramebuffer } );
+	for (int i = 0; i < swapImages.size(); i++) {
+		VkImageView attachments[] = {
+			vkImageViews[i]
+		};
+		VkFramebufferCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+		createInfo.renderPass = graphicsPipelineHelper.getRenderPass();
+		createInfo.attachmentCount = 1;
+		createInfo.pAttachments = attachments;
+		createInfo.width = swapExtent.width;
+		createInfo.height = swapExtent.height;
+		createInfo.layers = 1;
+		if (vkCreateFramebuffer(deviceHelper.getDevice(), &createInfo, nullptr, swapFrameBuffers[i].replace()) != VK_SUCCESS) {
+			throw std::runtime_error("Couldn't create framebuffer");
+		}
+	}
+}
+
 void App::destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator) {
 	auto destroyFunc = (PFN_vkDestroyDebugReportCallbackEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT");
 	destroyFunc(instance, callback, allocator);
