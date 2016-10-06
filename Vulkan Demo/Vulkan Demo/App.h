@@ -75,8 +75,6 @@ private:
 	void createVkSurface();
 	void createSwapChain();
 	void createImageViews();
-	void createRenderPass();
-	void setupGraphicsPipeline();
 
 	static void destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator);
 
