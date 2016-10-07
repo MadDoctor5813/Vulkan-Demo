@@ -51,6 +51,8 @@ private:
 
 	GraphicsPipelineHelper graphicsPipelineHelper;
 
+	VkWrapper<VkCommandPool> vkCommandPool{ deviceHelper.getDeviceWrapper(), vkDestroyCommandPool };
+
 	VkFormat swapFormat;
 	VkExtent2D swapExtent;
 
@@ -65,7 +67,6 @@ private:
 	const bool enableDebugLayers = true;
 #endif
 
-
 	void initGLFW();
 	void initVulkan();
 	
@@ -77,6 +78,7 @@ private:
 	void createSwapChain();
 	void createImageViews();
 	void createFramebuffers();
+	void createCommandPool();
 
 	static void destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator);
 

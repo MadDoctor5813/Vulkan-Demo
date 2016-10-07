@@ -55,6 +55,7 @@ void App::initVulkan() {
 	graphicsPipelineHelper.createRenderPass();
 	graphicsPipelineHelper.initGraphicsPipeline();
 	createFramebuffers();
+	createCommandPool();
 }
 
 void App::createVkInstance() {
@@ -204,6 +205,15 @@ void App::createFramebuffers() {
 		if (vkCreateFramebuffer(deviceHelper.getDevice(), &createInfo, nullptr, swapFrameBuffers[i].replace()) != VK_SUCCESS) {
 			throw std::runtime_error("Couldn't create framebuffer");
 		}
+	}
+}
+
+void App::createCommandPool() {
+	VkCommandPoolCreateInfo poolInfo = {};
+	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+	poolInfo.queueFamilyIndex = deviceHelper.getQueueInfo().graphicsQueueIdx;
+	if (vkCreateCommandPool(deviceHelper.getDevice(), &poolInfo, nullptr, &vkCommandPool) != VK_SUCCESS) {
+		throw std::runtime_error("Could not create command pool.");
 	}
 }
 
