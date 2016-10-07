@@ -56,6 +56,7 @@ void App::initVulkan() {
 	graphicsPipelineHelper.initGraphicsPipeline();
 	createFramebuffers();
 	createCommandPool();
+	createCommandBuffers();
 }
 
 void App::createVkInstance() {
@@ -214,6 +215,40 @@ void App::createCommandPool() {
 	poolInfo.queueFamilyIndex = deviceHelper.getQueueInfo().graphicsQueueIdx;
 	if (vkCreateCommandPool(deviceHelper.getDevice(), &poolInfo, nullptr, &vkCommandPool) != VK_SUCCESS) {
 		throw std::runtime_error("Could not create command pool.");
+	}
+}
+
+void App::createCommandBuffers() {
+	vkCommandBuffers.reserve(swapFrameBuffers.size());
+	VkCommandBufferAllocateInfo allocInfo = {};
+	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+	allocInfo.commandPool = vkCommandPool;
+	allocInfo.commandBufferCount = vkCommandBuffers.size();
+	if (vkAllocateCommandBuffers(deviceHelper.getDevice(), &allocInfo, vkCommandBuffers.data()) != VK_SUCCESS) {
+		throw std::runtime_error("Could not create command buffers.");
+	}
+	for (int i = 0; i < vkCommandBuffers.size(); i++) {
+		VkCommandBufferBeginInfo bufferInfo = {};
+		bufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		bufferInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+		vkBeginCommandBuffer(vkCommandBuffers[i], &bufferInfo);
+		VkRenderPassBeginInfo passInfo = {};
+		passInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		passInfo.renderPass = graphicsPipelineHelper.getRenderPass();
+		passInfo.framebuffer = swapFrameBuffers[i];
+		passInfo.renderArea.offset = { 0, 0 };
+		passInfo.renderArea.extent = swapExtent;
+		VkClearValue clearColor = { 1.0f, 0.0f, 1.0f, 1.0f };
+		passInfo.clearValueCount = 1;
+		passInfo.pClearValues = &clearColor;
+		vkCmdBeginRenderPass(vkCommandBuffers[i], &passInfo, VK_SUBPASS_CONTENTS_INLINE);
+		vkCmdBindPipeline(vkCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelineHelper.getPipeline());
+		vkCmdDraw(vkCommandBuffers[i], 3, 1, 0, 0);
+		vkCmdEndRenderPass(vkCommandBuffers[i]);
+		if (vkEndCommandBuffer(vkCommandBuffers[i]) != VK_SUCCESS) {
+			throw std::runtime_error("Could not create command buffer.");
+		}
 	}
 }
 

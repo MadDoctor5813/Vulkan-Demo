@@ -52,6 +52,7 @@ private:
 	GraphicsPipelineHelper graphicsPipelineHelper;
 
 	VkWrapper<VkCommandPool> vkCommandPool{ deviceHelper.getDeviceWrapper(), vkDestroyCommandPool };
+	std::vector<VkCommandBuffer> vkCommandBuffers;
 
 	VkFormat swapFormat;
 	VkExtent2D swapExtent;
@@ -79,6 +80,7 @@ private:
 	void createImageViews();
 	void createFramebuffers();
 	void createCommandPool();
+	void createCommandBuffers();
 
 	static void destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator);
 
