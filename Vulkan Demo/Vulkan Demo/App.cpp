@@ -18,7 +18,10 @@ App::~App() {
 void App::runLoop() {	
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
+		drawFrame();
 	}
+
+	vkDeviceWaitIdle(deviceHelper.getDevice());
 }
 
 void App::initGLFW() {
@@ -57,6 +60,36 @@ void App::initVulkan() {
 	createFramebuffers();
 	createCommandPool();
 	createCommandBuffers();
+	createSemaphores();
+}
+
+void App::drawFrame() {
+	uint32_t imgIdx;
+	vkAcquireNextImageKHR(deviceHelper.getDevice(), vkSwapChain, std::numeric_limits<int64_t>::max(), imageAvailableSemaphore, VK_NULL_HANDLE, &imgIdx);
+	VkSubmitInfo submitInfo = {};
+	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+	VkSemaphore waitSemaphores[] = { imageAvailableSemaphore };
+	VkPipelineStageFlags waitFlags[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+	submitInfo.waitSemaphoreCount = 1;
+	submitInfo.pWaitSemaphores = waitSemaphores;
+	submitInfo.pWaitDstStageMask = waitFlags;
+	submitInfo.commandBufferCount = 1;
+	submitInfo.pCommandBuffers = &vkCommandBuffers[imgIdx];
+	VkSemaphore signalSemaphores[] = { renderFinishedSemaphore };
+	submitInfo.signalSemaphoreCount = 1;
+	submitInfo.pSignalSemaphores = signalSemaphores;
+	if (vkQueueSubmit(deviceHelper.graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
+		throw std::runtime_error("Could not submit command buffer");
+	}
+	VkPresentInfoKHR presentInfo = {};
+	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+	presentInfo.waitSemaphoreCount = 1;
+	presentInfo.pWaitSemaphores = signalSemaphores;
+	VkSwapchainKHR swapChain[] = { vkSwapChain };
+	presentInfo.swapchainCount = 1;
+	presentInfo.pSwapchains = swapChain;
+	presentInfo.pImageIndices = &imgIdx;
+	vkQueuePresentKHR(deviceHelper.presentQueue, &presentInfo);
 }
 
 void App::createVkInstance() {
@@ -249,6 +282,15 @@ void App::createCommandBuffers() {
 		if (vkEndCommandBuffer(vkCommandBuffers[i]) != VK_SUCCESS) {
 			throw std::runtime_error("Could not create command buffer.");
 		}
+	}
+}
+
+void App::createSemaphores() {
+	VkSemaphoreCreateInfo createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+	if (vkCreateSemaphore(deviceHelper.getDevice(), &createInfo, nullptr, &imageAvailableSemaphore) != VK_SUCCESS ||
+		vkCreateSemaphore(deviceHelper.getDevice(), &createInfo, nullptr, &renderFinishedSemaphore) != VK_SUCCESS) {
+		throw std::runtime_error("Could not create semaphores.");
 	}
 }
 

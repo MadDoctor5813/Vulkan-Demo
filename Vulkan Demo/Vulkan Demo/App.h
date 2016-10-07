@@ -54,6 +54,9 @@ private:
 	VkWrapper<VkCommandPool> vkCommandPool{ deviceHelper.getDeviceWrapper(), vkDestroyCommandPool };
 	std::vector<VkCommandBuffer> vkCommandBuffers;
 
+	VkWrapper<VkSemaphore> imageAvailableSemaphore{ deviceHelper.getDeviceWrapper(), vkDestroySemaphore };
+	VkWrapper<VkSemaphore> renderFinishedSemaphore{ deviceHelper.getDeviceWrapper(), vkDestroySemaphore };
+
 	VkFormat swapFormat;
 	VkExtent2D swapExtent;
 
@@ -70,6 +73,7 @@ private:
 
 	void initGLFW();
 	void initVulkan();
+	void drawFrame();
 	
 	void createVkInstance();
 	void loadExtensions();
@@ -81,6 +85,7 @@ private:
 	void createFramebuffers();
 	void createCommandPool();
 	void createCommandBuffers();
+	void createSemaphores();
 
 	static void destroyDebugCallback(VkInstance instance, VkDebugReportCallbackEXT callback, VkAllocationCallbacks* allocator);
 

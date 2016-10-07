@@ -105,12 +105,21 @@ void GraphicsPipelineHelper::createRenderPass() {
 	VkSubpassDescription subPass = {};
 	subPass.colorAttachmentCount = 1;
 	subPass.pColorAttachments = &attachmentRef;
+	VkSubpassDependency subpassDep = {};
+	subpassDep.srcSubpass = VK_SUBPASS_EXTERNAL;
+	subpassDep.dstSubpass = 0;
+	subpassDep.srcStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+	subpassDep.srcAccessMask = VK_ACCESS_MEMORY_READ_BIT;
+	subpassDep.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	subpassDep.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT | VK_ACCESS_COLOR_ATTACHMENT_READ_BIT;
 	VkRenderPassCreateInfo passInfo = {};
 	passInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
 	passInfo.attachmentCount = 1;
 	passInfo.pAttachments = &attachment;
 	passInfo.subpassCount = 1;
 	passInfo.pSubpasses = &subPass;
+	passInfo.dependencyCount = 1;
+	passInfo.pDependencies = &subpassDep;
 	if (vkCreateRenderPass(appRef.getDeviceHelper().getDevice(), &passInfo, nullptr, &vkRenderPass) != VK_SUCCESS) {
 		throw std::runtime_error("Could not create render pass.");
 	}
