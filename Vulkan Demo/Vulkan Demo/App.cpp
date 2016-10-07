@@ -54,6 +54,7 @@ void App::initVulkan() {
 	shaderLoader.loadShaders();
 	graphicsPipelineHelper.createRenderPass();
 	graphicsPipelineHelper.initGraphicsPipeline();
+	createFramebuffers();
 }
 
 void App::createVkInstance() {
