@@ -39,6 +39,13 @@ public:
 		return object;
 	}
 
+	void operator=(T rhs)[
+		if (rhs != object) {
+			cleanup();
+			object = rhs;
+		}
+	]
+
 private:
 	T object{ VK_NULL_HANDLE };
 	std::function<void(T)> deleteFunc;
