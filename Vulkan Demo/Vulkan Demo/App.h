@@ -74,6 +74,7 @@ private:
 	void initGLFW();
 	void initVulkan();
 	void drawFrame();
+	void recreateSwapchain();
 	
 	void createVkInstance();
 	void loadExtensions();

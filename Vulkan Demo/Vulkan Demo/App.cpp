@@ -92,6 +92,16 @@ void App::drawFrame() {
 	vkQueuePresentKHR(deviceHelper.presentQueue, &presentInfo);
 }
 
+void App::recreateSwapchain() {
+	vkDeviceWaitIdle(deviceHelper.getDevice());
+
+	createSwapChain();
+	createImageViews();
+	graphicsPipelineHelper.createRenderPass();
+	graphicsPipelineHelper.initGraphicsPipeline();
+	createCommandBuffers();
+}
+
 void App::createVkInstance() {
 	VkApplicationInfo appInfo = {};
 	appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -186,10 +196,15 @@ void App::createSwapChain() {
 	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 	createInfo.presentMode = mode;
 	createInfo.clipped = VK_TRUE;
+	//handle a previous swapchain here
+	VkSwapchainKHR oldSwapchain = vkSwapChain;
+	createInfo.oldSwapchain = oldSwapchain;
+	VkSwapchainKHR newSwapchain;
 	createInfo.oldSwapchain = VK_NULL_HANDLE;
-	if (vkCreateSwapchainKHR(deviceHelper.getDevice(), &createInfo, nullptr, &vkSwapChain) != VK_SUCCESS) {
+	if (vkCreateSwapchainKHR(deviceHelper.getDevice(), &createInfo, nullptr, &newSwapchain) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create VkSwapChain");
 	}
+	vkSwapChain = newSwapchain;
 	unsigned int imageCount;
 	vkGetSwapchainImagesKHR(deviceHelper.getDevice(), vkSwapChain, &imageCount, nullptr);
 	swapImages.resize(imageCount);
@@ -252,6 +267,10 @@ void App::createCommandPool() {
 }
 
 void App::createCommandBuffers() {
+	if (vkCommandBuffers.size() != 0) {
+		vkFreeCommandBuffers(deviceHelper.getDevice(), vkCommandPool, vkCommandBuffers.size(), vkCommandBuffers.data());
+	}
+
 	vkCommandBuffers.resize(swapFrameBuffers.size());
 	VkCommandBufferAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
