@@ -30,8 +30,11 @@ void App::initGLFW() {
 	}
 
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+
 	window = glfwCreateWindow(windowWidth, windowHeight, "Vulkan Test", nullptr, nullptr);
+	glfwSetWindowUserPointer(window, this);
+	glfwSetWindowSizeCallback(window, onWindowResize);
 
 	if (window == nullptr) {
 		throw std::runtime_error("Window creation failed.");
@@ -103,6 +106,16 @@ void App::recreateSwapchain() {
 	createCommandBuffers();
 }
 
+void App::onWindowResize(GLFWwindow * window, int width, int height) {
+	if (width == 0 || height == 0) {
+		return;
+	}
+	App* app = (App*)glfwGetWindowUserPointer(window);
+	app->windowWidth = width;
+	app->windowHeight = height;
+	app->recreateSwapchain();
+}
+
 void App::createVkInstance() {
 	VkApplicationInfo appInfo = {};
 	appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -168,6 +181,7 @@ void App::createVkSurface() {
 
 void App::createSwapChain() {
 	VkSwapchainCreateInfoKHR createInfo = {};
+	deviceHelper.querySwapDetails();
 	SwapChainDetails details = deviceHelper.getSwapDetails();
 	QueueInfo queueInfo = deviceHelper.getQueueInfo();
 	VkSurfaceFormatKHR format = deviceHelper.selectDeviceSurfaceFormat();
@@ -201,7 +215,6 @@ void App::createSwapChain() {
 	VkSwapchainKHR oldSwapchain = vkSwapChain;
 	createInfo.oldSwapchain = oldSwapchain;
 	VkSwapchainKHR newSwapchain;
-	createInfo.oldSwapchain = VK_NULL_HANDLE;
 	if (vkCreateSwapchainKHR(deviceHelper.getDevice(), &createInfo, nullptr, &newSwapchain) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create VkSwapChain");
 	}
@@ -333,3 +346,4 @@ VkBool32 _stdcall App::debugLayerCallback(
 
 	return VK_FALSE;
 }
+

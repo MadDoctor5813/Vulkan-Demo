@@ -75,6 +75,8 @@ private:
 	void initVulkan();
 	void drawFrame();
 	void recreateSwapchain();
+
+	static void onWindowResize(GLFWwindow * window, int width, int height);
 	
 	void createVkInstance();
 	void loadExtensions();
