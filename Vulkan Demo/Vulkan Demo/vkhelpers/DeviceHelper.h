@@ -38,6 +38,7 @@ public:
 	VkDevice getDevice() { return device; }
 	VkWrapper<VkDevice>& getDeviceWrapper() { return device; }
 
+	void querySwapDetails();
 	void selectPhysicalDevice();
 	void createLogicalDevice();
 

@@ -17,6 +17,10 @@ DeviceHelper::DeviceHelper(App& app) : app(app) {
 DeviceHelper::~DeviceHelper() {
 }
 
+void DeviceHelper::querySwapDetails() {
+	physDeviceSwapDetails = querySwapChain(physDevice);
+}
+
 void DeviceHelper::selectPhysicalDevice() {
 	unsigned int deviceCount = 0;
 	vkEnumeratePhysicalDevices(app.getInstance(), &deviceCount, nullptr);
