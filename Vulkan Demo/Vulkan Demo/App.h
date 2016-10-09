@@ -31,8 +31,8 @@ public:
 	VkFormat getSwapFormat() { return swapFormat; }
 	VkExtent2D getSwapExtent() { return swapExtent; }
 
-	const int WIDTH = 720;
-	const int HEIGHT = 480;
+	int windowWidth = 720;
+	int windowHeight = 480;
 
 private:
 	GLFWwindow * window;

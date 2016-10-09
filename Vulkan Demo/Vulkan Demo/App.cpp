@@ -31,7 +31,7 @@ void App::initGLFW() {
 
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-	window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan Test", nullptr, nullptr);
+	window = glfwCreateWindow(windowWidth, windowHeight, "Vulkan Test", nullptr, nullptr);
 
 	if (window == nullptr) {
 		throw std::runtime_error("Window creation failed.");

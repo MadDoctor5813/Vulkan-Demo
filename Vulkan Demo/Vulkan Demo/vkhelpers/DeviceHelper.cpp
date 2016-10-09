@@ -96,7 +96,7 @@ VkExtent2D DeviceHelper::selectDeviceExtent() {
 	}
 	//select our own extent using the max and min extents from the capablities struct
 	else {
-		VkExtent2D extent { app.WIDTH, app.HEIGHT };
+		VkExtent2D extent { app.windowWidth, app.windowHeight };
 		extent.width = std::max(physDeviceSwapDetails.caps.maxImageExtent.width, std::min(extent.width, physDeviceSwapDetails.caps.minImageExtent.width));
 		extent.height = std::max(physDeviceSwapDetails.caps.maxImageExtent.height, std::min(extent.height, physDeviceSwapDetails.caps.minImageExtent.height));
 		return extent;
