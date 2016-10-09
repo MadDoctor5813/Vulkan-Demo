@@ -44,6 +44,12 @@ public:
 			cleanup();
 			object = rhs;
 		}
+	}
+
+	template <typename V>
+	void operator==(V rhs) {
+		return object = T(rhs);
+	}
 
 private:
 	T object{ VK_NULL_HANDLE };
