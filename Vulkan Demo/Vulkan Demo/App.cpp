@@ -99,6 +99,7 @@ void App::recreateSwapchain() {
 	createImageViews();
 	graphicsPipelineHelper.createRenderPass();
 	graphicsPipelineHelper.initGraphicsPipeline();
+	createFramebuffers();
 	createCommandBuffers();
 }
 
