@@ -1,9 +1,10 @@
 #include "GraphicsPipelineHelper.h"
 
 #include "App.h"
+#include "VulkanContext.h"
 
 
-GraphicsPipelineHelper::GraphicsPipelineHelper(App& app, DeviceHelper& deviceHelper) : appRef(app), deviceHelper(deviceHelper) {
+GraphicsPipelineHelper::GraphicsPipelineHelper(App& app, VulkanContext& context, DeviceHelper& deviceHelper) : appRef(app), context(context), deviceHelper(deviceHelper) {
 
 }
 
@@ -23,13 +24,13 @@ void GraphicsPipelineHelper::initGraphicsPipeline() {
 	VkViewport viewport = {};
 	viewport.x = 0;
 	viewport.y = 0;
-	viewport.width = appRef.getSwapExtent().width;
-	viewport.height = appRef.getSwapExtent().height;
+	viewport.width = context.getSwapExtent().width;
+	viewport.height = context.getSwapExtent().height;
 	viewport.minDepth = 0;
 	viewport.maxDepth = 1.0f;
 	VkRect2D scissor = {};
 	scissor.offset = { 0, 0 };
-	scissor.extent = appRef.getSwapExtent();
+	scissor.extent = context.getSwapExtent();
 	VkPipelineViewportStateCreateInfo viewportState = {};
 	viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 	viewportState.viewportCount = 1;
@@ -66,7 +67,7 @@ void GraphicsPipelineHelper::initGraphicsPipeline() {
 	blendInfo.pAttachments = &colorBlend;
 	VkPipelineLayoutCreateInfo layoutInfo = {};
 	layoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-	if (vkCreatePipelineLayout(appRef.getDeviceHelper().getDevice(), &layoutInfo, nullptr, &vkPipelineLayout) != VK_SUCCESS) {
+	if (vkCreatePipelineLayout(context.getDeviceHelper().getDevice(), &layoutInfo, nullptr, &vkPipelineLayout) != VK_SUCCESS) {
 		throw std::runtime_error("Could not create pipeline layout.");
 	}
 	VkPipelineShaderStageCreateInfo shaderInfos[] = { appRef.getShaderLoader().getShader("shaders/phongshading.vert.spv").info, appRef.getShaderLoader().getShader("shaders/phongshading.frag.spv").info };
@@ -84,14 +85,14 @@ void GraphicsPipelineHelper::initGraphicsPipeline() {
 	pipelineInfo.renderPass = vkRenderPass;
 	pipelineInfo.subpass = 0;
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
-	if (vkCreateGraphicsPipelines(appRef.getDeviceHelper().getDevice(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &vkGraphicsPipeline) != VK_SUCCESS) {
+	if (vkCreateGraphicsPipelines(context.getDeviceHelper().getDevice(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &vkGraphicsPipeline) != VK_SUCCESS) {
 		throw std::runtime_error("Could not create graphics pipeline.");
 	}
 }
 
 void GraphicsPipelineHelper::createRenderPass() {
 	VkAttachmentDescription attachment = {};
-	attachment.format = appRef.getSwapFormat();
+	attachment.format = context.getSwapFormat();
 	attachment.samples = VK_SAMPLE_COUNT_1_BIT;
 	attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 	attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -120,7 +121,7 @@ void GraphicsPipelineHelper::createRenderPass() {
 	passInfo.pSubpasses = &subPass;
 	passInfo.dependencyCount = 1;
 	passInfo.pDependencies = &subpassDep;
-	if (vkCreateRenderPass(appRef.getDeviceHelper().getDevice(), &passInfo, nullptr, &vkRenderPass) != VK_SUCCESS) {
+	if (vkCreateRenderPass(context.getDeviceHelper().getDevice(), &passInfo, nullptr, &vkRenderPass) != VK_SUCCESS) {
 		throw std::runtime_error("Could not create render pass.");
 	}
 }

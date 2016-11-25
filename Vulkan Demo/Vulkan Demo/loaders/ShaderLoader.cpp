@@ -16,7 +16,7 @@ ShaderLoader::~ShaderLoader() {
 
 void ShaderLoader::loadShaders() {
 	for (auto iter = fs::directory_iterator("shaders/"); iter != fs::directory_iterator(); iter++) {
-		shaders.emplace(std::piecewise_construct, std::forward_as_tuple(iter->path()), std::forward_as_tuple(VkWrapper<VkShaderModule> {appRef.getDeviceHelper().getDeviceWrapper(), vkDestroyShaderModule}, VkPipelineShaderStageCreateInfo()));
+		shaders.emplace(std::piecewise_construct, std::forward_as_tuple(iter->path()), std::forward_as_tuple(VkWrapper<VkShaderModule> {appRef.getVulkanContext().getDeviceHelper().getDeviceWrapper(), vkDestroyShaderModule}, VkPipelineShaderStageCreateInfo()));
 		auto binaryData = readBinaryFile(iter->path());
 		createShaderModule(binaryData, shaders.at(iter->path()).module);
 		auto stageInfo = createShaderStageInfo(shaders.at(iter->path()).module, getStageFromPath(iter->path()));
@@ -43,7 +43,7 @@ void ShaderLoader::createShaderModule(std::vector<char> data, VkWrapper<VkShader
 	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 	createInfo.codeSize = data.size();
 	createInfo.pCode = (uint32_t*) data.data();
-	if (vkCreateShaderModule(appRef.getDeviceHelper().getDevice(), &createInfo, nullptr, &module) != VK_SUCCESS) {
+	if (vkCreateShaderModule(appRef.getVulkanContext().getDeviceHelper().getDevice(), &createInfo, nullptr, &module) != VK_SUCCESS) {
 		throw std::runtime_error("Could not create shader module.");
 	}
 }

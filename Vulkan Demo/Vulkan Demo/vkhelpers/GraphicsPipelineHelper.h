@@ -3,12 +3,13 @@
 #include <vulkan\vulkan.h>
 
 class App;
+class VulkanContext;
 
 #include "vkhelpers/DeviceHelper.h"
 
 class GraphicsPipelineHelper {
 public:
-	GraphicsPipelineHelper(App& app, DeviceHelper& deviceHelper);
+	GraphicsPipelineHelper(App& app, VulkanContext& context, DeviceHelper& deviceHelper);
 	~GraphicsPipelineHelper();
 
 	VkRenderPass getRenderPass() { return vkRenderPass; }
@@ -19,6 +20,7 @@ public:
 	void initGraphicsPipeline();
 private:
 	App& appRef;
+	VulkanContext& context;
 
 	DeviceHelper& deviceHelper;
 

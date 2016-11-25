@@ -8,8 +8,9 @@
 #include <algorithm>
 
 #include "App.h"
+#include "VulkanContext.h"
 
-DeviceHelper::DeviceHelper(App& app) : app(app) {
+DeviceHelper::DeviceHelper(App& app, VulkanContext& context) : app(app), context(context) {
 	
 }
 
@@ -23,12 +24,12 @@ void DeviceHelper::querySwapDetails() {
 
 void DeviceHelper::selectPhysicalDevice() {
 	unsigned int deviceCount = 0;
-	vkEnumeratePhysicalDevices(app.getInstance(), &deviceCount, nullptr);
+	vkEnumeratePhysicalDevices(context.getInstance(), &deviceCount, nullptr);
 	if (deviceCount == 0) {
 		throw std::runtime_error("No physical devices found.");
 	}
 	std::vector<VkPhysicalDevice> devices(deviceCount);
-	vkEnumeratePhysicalDevices(app.getInstance(), &deviceCount, devices.data());
+	vkEnumeratePhysicalDevices(context.getInstance(), &deviceCount, devices.data());
 	//select the best device
 	for (auto device : devices) {
 		QueueInfo info = findQueues(device);
@@ -60,8 +61,8 @@ void DeviceHelper::createLogicalDevice() {
 	deviceInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 	deviceInfo.pQueueCreateInfos = queueInfos.data();
 	deviceInfo.queueCreateInfoCount = queueInfos.size();
-	deviceInfo.enabledLayerCount = app.getReqLayers().size();
-	deviceInfo.ppEnabledLayerNames = app.getReqLayers().data();
+	deviceInfo.enabledLayerCount = context.getReqLayers().size();
+	deviceInfo.ppEnabledLayerNames = context.getReqLayers().data();
 	deviceInfo.enabledExtensionCount = deviceReqExtensions.size();
 	deviceInfo.ppEnabledExtensionNames = deviceReqExtensions.data();
 	if (vkCreateDevice(physDevice, &deviceInfo, nullptr, &device) != VK_SUCCESS) {
@@ -119,7 +120,7 @@ QueueInfo DeviceHelper::findQueues(VkPhysicalDevice device) {
 			info.graphicsQueueIdx = i;
 		}
 		VkBool32 presentSupport = false;
-		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, app.getSurface(), &presentSupport);
+		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, context.getSurface(), &presentSupport);
 		if (queueFamilies[i].queueCount > 0 && presentSupport == true) {
 			info.presentQueueIdx = i;
 		}
@@ -132,18 +133,18 @@ QueueInfo DeviceHelper::findQueues(VkPhysicalDevice device) {
 
 SwapChainDetails DeviceHelper::querySwapChain(VkPhysicalDevice device) {
 	SwapChainDetails details;
-	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, app.getSurface(), &details.caps);
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, context.getSurface(), &details.caps);
 	unsigned int formatCount = 0;
-	vkGetPhysicalDeviceSurfaceFormatsKHR(device, app.getSurface(), &formatCount, nullptr);
+	vkGetPhysicalDeviceSurfaceFormatsKHR(device, context.getSurface(), &formatCount, nullptr);
 	if (formatCount > 0) {
 		details.formats.resize(formatCount);
-		vkGetPhysicalDeviceSurfaceFormatsKHR(device, app.getSurface(), &formatCount, details.formats.data());
+		vkGetPhysicalDeviceSurfaceFormatsKHR(device, context.getSurface(), &formatCount, details.formats.data());
 	}
 	unsigned int modeCount = 0;
-	vkGetPhysicalDeviceSurfacePresentModesKHR(device, app.getSurface(), &modeCount, nullptr);
+	vkGetPhysicalDeviceSurfacePresentModesKHR(device, context.getSurface(), &modeCount, nullptr);
 	if (modeCount > 0) {
 		details.modes.resize(modeCount);
-		vkGetPhysicalDeviceSurfacePresentModesKHR(device, app.getSurface(), &modeCount, details.modes.data());
+		vkGetPhysicalDeviceSurfacePresentModesKHR(device, context.getSurface(), &modeCount, details.modes.data());
 	}
 	return details;
 }

@@ -26,10 +26,11 @@ struct SwapChainDetails {
 };
 
 class App;
+class VulkanContext;
 
 class DeviceHelper {
 public:
-	DeviceHelper(App& app);
+	DeviceHelper(App& app, VulkanContext& context);
 	~DeviceHelper();
 
 	VkQueue graphicsQueue;
@@ -51,6 +52,7 @@ public:
 
 private:
 	App& app;
+	VulkanContext& context;
 
 	VkWrapper<VkDevice> device{ vkDestroyDevice };
 

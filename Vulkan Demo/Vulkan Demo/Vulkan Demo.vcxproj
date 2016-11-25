@@ -165,6 +165,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
     <ClCompile Include="loaders\ShaderLoader.cpp" />
     <ClCompile Include="vkhelpers\DeviceHelper.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="vkhelpers\VulkanContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -173,6 +174,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
     <ClInclude Include="vkhelpers\DeviceHelper.h" />
     <ClInclude Include="vkhelpers\VkQueryHelper.h" />
     <ClInclude Include="vkhelpers\VkWrapper.h" />
+    <ClInclude Include="vkhelpers\VulkanContext.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
