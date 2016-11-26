@@ -101,8 +101,7 @@
     <PostBuildEvent>
       <Command>powershell Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 powershell -file "$(SolutionDir)buildscripts/compileshaders.ps1" "$(SolutionDir)resources/shadersource/" "$(SolutionDir)resources/shaders/" C:\VulkanSDK\1.0.17.0\Bin32\glslangvalidator.exe
-robocopy "$(SolutionDir)resources/shaders/" "$(TargetDir)shaders/"
-if %ERRORLEVEL% LEQ 3 exit 0</Command>
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -138,8 +137,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
     <PostBuildEvent>
       <Command>powershell Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 powershell -file "$(SolutionDir)buildscripts/compileshaders.ps1" "$(SolutionDir)resources/shadersource/" "$(SolutionDir)resources/shaders/" C:\VulkanSDK\1.0.17.0\Bin32\glslangvalidator.exe
-robocopy "$(SolutionDir)resources/shaders/" "$(TargetDir)shaders/"
-if %ERRORLEVEL% LEQ 3 exit 0</Command>
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -161,6 +159,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="loaders\MeshLoader.cpp" />
     <ClCompile Include="vkhelpers\GraphicsPipelineHelper.cpp" />
     <ClCompile Include="loaders\ShaderLoader.cpp" />
     <ClCompile Include="vkhelpers\DeviceHelper.cpp" />
@@ -169,6 +168,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="loaders\MeshLoader.h" />
     <ClInclude Include="vkhelpers\GraphicsPipelineHelper.h" />
     <ClInclude Include="loaders\ShaderLoader.h" />
     <ClInclude Include="vkhelpers\DeviceHelper.h" />
@@ -179,4 +179,13 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <Target Name="AfterBuild">
+    <ItemGroup>
+      <DeployFileGroup
+        Include="$(SolutionDir)resources\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DeployFileGroup)"
+      DestinationFiles="@(DeployFileGroup->'$(TargetDir)%(RecursiveDir)\%(Filename)%(Extension)')"
+      SkipUnchangedFiles="False" UseHardlinksIfPossible="True"/>
+  </Target>
 </Project>
