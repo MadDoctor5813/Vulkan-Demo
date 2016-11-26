@@ -181,11 +181,8 @@ powershell -file "$(SolutionDir)buildscripts/compileshaders.ps1" "$(SolutionDir)
   </ImportGroup>
   <Target Name="AfterBuild">
     <ItemGroup>
-      <DeployFileGroup
-        Include="$(SolutionDir)resources\**\*.*" />
+      <DeployFileGroup Include="$(SolutionDir)resources\**\*.*" />
     </ItemGroup>
-    <Copy SourceFiles="@(DeployFileGroup)"
-      DestinationFiles="@(DeployFileGroup->'$(TargetDir)%(RecursiveDir)\%(Filename)%(Extension)')"
-      SkipUnchangedFiles="False" UseHardlinksIfPossible="True"/>
+    <Copy SourceFiles="@(DeployFileGroup)" DestinationFiles="@(DeployFileGroup->'$(TargetDir)%(RecursiveDir)\%(Filename)%(Extension)')" SkipUnchangedFiles="True" UseHardlinksIfPossible="True" />
   </Target>
 </Project>
