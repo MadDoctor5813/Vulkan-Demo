@@ -44,6 +44,7 @@ void App::initGLFW() {
 void App::initVulkan() {
 	vulkanContext.initContext();
 	createSemaphores();
+	meshLoader.loadMeshes();
 }
 
 void App::drawFrame() {

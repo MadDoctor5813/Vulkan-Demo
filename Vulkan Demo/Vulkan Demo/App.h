@@ -13,6 +13,7 @@
 #include "vkhelpers\VulkanContext.h"
 
 #include "loaders\ShaderLoader.h"
+#include "loaders\MeshLoader.h"
 
 class App {
 
@@ -34,6 +35,7 @@ private:
 	GLFWwindow * window;
 	VulkanContext vulkanContext;
 	ShaderLoader shaderLoader;
+	MeshLoader meshLoader;
 
 	VkWrapper<VkSemaphore> imageAvailableSemaphore{ vulkanContext.getDeviceHelper().getDeviceWrapper(), vkDestroySemaphore };
 	VkWrapper<VkSemaphore> renderFinishedSemaphore{ vulkanContext.getDeviceHelper().getDeviceWrapper(), vkDestroySemaphore };
