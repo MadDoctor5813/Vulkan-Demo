@@ -50,6 +50,8 @@ public:
 	VkPresentModeKHR selectDevicePresentMode();
 	VkExtent2D selectDeviceExtent();
 
+	uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags flags);
+
 private:
 	App& app;
 	VulkanContext& context;

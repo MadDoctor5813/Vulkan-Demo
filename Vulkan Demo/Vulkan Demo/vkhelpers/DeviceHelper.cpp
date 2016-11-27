@@ -108,6 +108,18 @@ VkExtent2D DeviceHelper::selectDeviceExtent() {
 	}
 }
 
+uint32_t DeviceHelper::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags flags)
+{
+	VkPhysicalDeviceMemoryProperties memProps;
+	vkGetPhysicalDeviceMemoryProperties(physDevice, &memProps);
+	for (uint32_t i = 0; i < memProps.memoryTypeCount; i++) {
+		if ((typeFilter & (1 << i)) && (memProps.memoryTypes[i].propertyFlags & flags) == flags) {
+			return i;
+		}
+	}
+	throw std::runtime_error("Could not find suitable memory type.");
+}
+
 QueueInfo DeviceHelper::findQueues(VkPhysicalDevice device) {
 	QueueInfo info;
 	//find a usable queue family
