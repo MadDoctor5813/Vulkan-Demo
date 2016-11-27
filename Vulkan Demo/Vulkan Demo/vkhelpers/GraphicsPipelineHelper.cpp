@@ -15,8 +15,12 @@ GraphicsPipelineHelper::~GraphicsPipelineHelper() {
 void GraphicsPipelineHelper::initGraphicsPipeline() {
 	VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
 	vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-	vertexInputInfo.vertexAttributeDescriptionCount = 0;
-	vertexInputInfo.vertexBindingDescriptionCount = 0;
+	auto vertDescriptions = Vertex::getAttributeDescriptions();
+	vertexInputInfo.vertexAttributeDescriptionCount = vertDescriptions.size();
+	vertexInputInfo.pVertexAttributeDescriptions = vertDescriptions.data();
+	auto bindingDescription = Vertex::getBindingDescription();
+	vertexInputInfo.vertexBindingDescriptionCount = 1;
+	vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
 	VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo = {};
 	inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 	inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
