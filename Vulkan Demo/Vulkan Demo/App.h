@@ -24,6 +24,7 @@ public:
 	void runLoop();
 
 	ShaderLoader& getShaderLoader() { return shaderLoader; }
+	MeshLoader& getMeshLoader() { return meshLoader; }
 	VulkanContext& getVulkanContext() { return vulkanContext; }
 	GLFWwindow* getWindow() { return window; }
 

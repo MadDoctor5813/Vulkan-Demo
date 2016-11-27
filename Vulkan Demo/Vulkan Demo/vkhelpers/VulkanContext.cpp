@@ -2,7 +2,7 @@
 
 #include "App.h"
 
-VulkanContext::VulkanContext(App& app) : app(app), deviceHelper(app, *this), graphicsPipelineHelper(app, *this, deviceHelper)
+VulkanContext::VulkanContext(App& app) : app(app), deviceHelper(app, *this), graphicsPipelineHelper(app, *this, deviceHelper), vertexBuffer(deviceHelper)
 {
 }
 
@@ -28,6 +28,8 @@ void VulkanContext::initContext() {
 	createSwapChain();
 	createImageViews();
 	app.getShaderLoader().loadShaders();
+	app.getMeshLoader().loadMeshes();
+	vertexBuffer.uploadData(app.getMeshLoader().getMesh("meshes/Suzanne.jmdl").vertexes);
 	graphicsPipelineHelper.createRenderPass();
 	graphicsPipelineHelper.initGraphicsPipeline();
 	createFramebuffers();
@@ -241,7 +243,10 @@ void VulkanContext::createCommandBuffers() {
 		passInfo.pClearValues = &clearColor;
 		vkCmdBeginRenderPass(vkCommandBuffers[i], &passInfo, VK_SUBPASS_CONTENTS_INLINE);
 		vkCmdBindPipeline(vkCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelineHelper.getPipeline());
-		vkCmdDraw(vkCommandBuffers[i], 3, 1, 0, 0);
+		VkBuffer vertexBuffers[] = { vertexBuffer.getBuffer() };
+		VkDeviceSize offsets[] = { 0 };
+		vkCmdBindVertexBuffers(vkCommandBuffers[i], 0, 1, vertexBuffers, offsets);
+		vkCmdDraw(vkCommandBuffers[i], app.getMeshLoader().getMesh("meshes/Suzanne.jmdl").vertexes.size(), 1, 0, 0);
 		vkCmdEndRenderPass(vkCommandBuffers[i]);
 		if (vkEndCommandBuffer(vkCommandBuffers[i]) != VK_SUCCESS) {
 			throw std::runtime_error("Could not create command buffer.");

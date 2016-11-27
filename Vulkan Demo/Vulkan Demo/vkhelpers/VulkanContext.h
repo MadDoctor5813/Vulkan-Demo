@@ -6,6 +6,7 @@
 #include "vkhelpers\VkWrapper.h"
 #include "DeviceHelper.h"
 #include "GraphicsPipelineHelper.h"
+#include "VertexBuffer.h"
 
 class App;
 
@@ -53,6 +54,8 @@ private:
 
 	std::vector<const char*> reqExtensions;
 	std::vector<const char*> reqLayers;
+
+	VertexBuffer vertexBuffer;
 
 	void loadExtensions();
 	void loadLayers();
