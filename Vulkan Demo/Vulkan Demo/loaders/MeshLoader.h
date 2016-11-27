@@ -5,7 +5,7 @@
 #include <string>
 #include <filesystem>
 
-#include "graphics/Vertex.h"
+#include "graphics/Mesh.h"
 
 namespace fs = std::tr2::sys;
 
@@ -16,11 +16,11 @@ public:
 	~MeshLoader();
 
 	void loadMeshes();
-	std::vector<Vertex> getMesh(const std::string& name);
+	Mesh getMesh(const std::string& name);
 
 private:
-	std::vector<Vertex> loadMesh(fs::path path);
+	Mesh loadMesh(fs::path path);
 
-	std::map<fs::path, std::vector<Vertex>> meshes;
+	std::map<fs::path, Mesh> meshes;
 };
 

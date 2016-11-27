@@ -15,23 +15,23 @@ MeshLoader::~MeshLoader()
 void MeshLoader::loadMeshes()
 {
 	for (auto iter = fs::directory_iterator("meshes/"); iter != fs::directory_iterator(); iter++) {
-		std::vector<Vertex> mesh = loadMesh(iter->path());
-		if (mesh.size() != 0) {
+		Mesh mesh = loadMesh(iter->path());
+		if (mesh.vertexes.size() != 0) {
 			//only insert meshes that loaded successfully
 			meshes.emplace(iter->path(), mesh);
 		}
 	}
 }
 
-std::vector<Vertex> MeshLoader::getMesh(const std::string & name)
+Mesh MeshLoader::getMesh(const std::string & name)
 {
 	return meshes.at(fs::path(name));
 }
 
-std::vector<Vertex> MeshLoader::loadMesh(fs::path path)
+Mesh MeshLoader::loadMesh(fs::path path)
 {
 	std::ifstream fStream;
-	std::vector<Vertex> mesh;
+	Mesh mesh;
 	fStream.open(path.string(), std::ios::binary);
 	char fileSig[4];
 	for (int i = 0; i < 4; i++) {
@@ -39,11 +39,15 @@ std::vector<Vertex> MeshLoader::loadMesh(fs::path path)
 	}
 	if (strncmp(fileSig, "JMDL", 4) != 0) {
 		std::cout << "File " << path.string() << " is an invalid file. Skipping." << std::endl;
-		return std::vector<Vertex>();
+		return Mesh();
 	}
 	int numVertexes;
 	fStream.read((char*)&numVertexes, sizeof(numVertexes));
-	mesh.resize(numVertexes);
-	fStream.read((char*)mesh.data(), sizeof(Vertex) * numVertexes);
+	mesh.vertexes.resize(numVertexes);
+	fStream.read((char*)mesh.vertexes.data(), sizeof(Vertex) * numVertexes);
+	int numIndexes;
+	fStream.read((char*)&numIndexes, sizeof(numIndexes));
+	mesh.indexes.resize(numIndexes);
+	fStream.read((char*)mesh.indexes.data(), sizeof(int) * numIndexes);
 	return mesh;
 }
