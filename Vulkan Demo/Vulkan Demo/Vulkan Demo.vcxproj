@@ -160,6 +160,7 @@ powershell -file "$(SolutionDir)buildscripts/compileshaders.ps1" "$(SolutionDir)
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="loaders\MeshLoader.cpp" />
+    <ClCompile Include="vkhelpers\VertexBuffer.cpp" />
     <ClCompile Include="vkhelpers\GraphicsPipelineHelper.cpp" />
     <ClCompile Include="loaders\ShaderLoader.cpp" />
     <ClCompile Include="vkhelpers\DeviceHelper.cpp" />
@@ -171,6 +172,7 @@ powershell -file "$(SolutionDir)buildscripts/compileshaders.ps1" "$(SolutionDir)
     <ClInclude Include="graphics\Mesh.h" />
     <ClInclude Include="graphics\Vertex.h" />
     <ClInclude Include="loaders\MeshLoader.h" />
+    <ClInclude Include="vkhelpers\VertexBuffer.h" />
     <ClInclude Include="vkhelpers\GraphicsPipelineHelper.h" />
     <ClInclude Include="loaders\ShaderLoader.h" />
     <ClInclude Include="vkhelpers\DeviceHelper.h" />
